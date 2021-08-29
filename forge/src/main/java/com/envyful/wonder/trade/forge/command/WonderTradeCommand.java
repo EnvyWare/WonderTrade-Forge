@@ -1,6 +1,7 @@
 package com.envyful.wonder.trade.forge.command;
 
 import com.envyful.api.command.annotate.Command;
+import com.envyful.api.command.annotate.SubCommands;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import net.minecraft.command.ICommandSender;
@@ -12,6 +13,7 @@ import net.minecraft.command.ICommandSender;
                 "wt"
         }
 )
+@SubCommands(ReloadCommand.class)
 public class WonderTradeCommand {
 
     @CommandProcessor
