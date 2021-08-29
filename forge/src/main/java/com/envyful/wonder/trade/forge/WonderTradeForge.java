@@ -2,6 +2,7 @@ package com.envyful.wonder.trade.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -41,7 +42,7 @@ public class WonderTradeForge {
 
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
-
+        this.commandFactory.registerCommand(event.getServer(), new WonderTradeCommand());
     }
 
     public static WonderTradeForge getInstance() {
