@@ -12,12 +12,14 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.envyful.api.config.type.SQLDatabaseDetails;
+
 @ConfigPath("config/WonderTradeForge/config.yml")
 @ConfigSerializable
 public class WonderTradeConfig extends AbstractYamlConfig {
 
     private GenerationSettings defaultGeneratorSettings = new GenerationSettings();
-    private DatabaseDetails databaseDetails = new DatabaseDetails();
+    private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails();
 
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
@@ -36,7 +38,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
         return this.minRequiredLevel;
     }
 
-    public DatabaseDetails getDatabaseDetails() {
+    public SQLDatabaseDetails getDatabaseDetails() {
         return this.databaseDetails;
     }
 
@@ -72,44 +74,6 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             }
 
             return species;
-        }
-    }
-
-    @ConfigSerializable
-    public static class DatabaseDetails {
-
-        private String poolName = "WonderTrade";
-        private String ip = "0.0.0.0";
-        private int port = 3306;
-        private String username = "admin";
-        private String password = "admin";
-        private String database = "database";
-
-        public DatabaseDetails() {
-        }
-
-        public String getPoolName() {
-            return this.poolName;
-        }
-
-        public String getIp() {
-            return this.ip;
-        }
-
-        public int getPort() {
-            return this.port;
-        }
-
-        public String getUsername() {
-            return this.username;
-        }
-
-        public String getPassword() {
-            return this.password;
-        }
-
-        public String getDatabase() {
-            return this.database;
         }
     }
 }
