@@ -44,20 +44,27 @@ public class PokemonSelectUI {
             int yPos = 1 + (i % 2);
 
             if (pokemon == null) {
+                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
+                        .itemStack(new ItemBuilder()
+                                .type(Item.getByNameOrId("minecraft:barrier"))
+                                .name(UtilChatColour.translateColourCodes('&', "&c&l "))
+                                .lore( ).build())
+                        .build());
                 continue;
             }
 
             if (pokemon.getLevel() < WonderTradeForge.getInstance().getConfig().getMinRequiredLevel()) {
-                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
+                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(new ItemBuilder()
-                                .type(Item.getByNameOrId("minecraft:barrier"))
+                                .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
+                                .damage(14)
                                 .name(UtilChatColour.translateColourCodes('&', "&c&lLevel too low"))
                                 .lore(
                                         ""
                                 ).build())
                         .build());
             } else {
-                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
+                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(UtilSprite.getPixelmonSprite(pokemon))
                         .clickHandler((envyPlayer, clickType) -> {})
                         .build());

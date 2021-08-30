@@ -6,6 +6,7 @@ import com.envyful.api.math.UtilRandom;
 import com.google.common.collect.Sets;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
+import com.pixelmonmod.pixelmon.api.spawning.SpawnSet;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
@@ -55,8 +56,6 @@ public class WonderTradeConfig extends AbstractYamlConfig {
         private boolean allowLegends = true;
         private boolean allowUltraBeasts = true;
         private double shinyChance = 0.05;
-        private int minLevel = 10;
-        private int maxLevel = 70;
 
         public GenerationSettings() {
         }
@@ -67,7 +66,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
             spec.name = species.name;
             spec.shiny = ThreadLocalRandom.current().nextDouble() < this.shinyChance;
-            spec.level = UtilRandom.randomInteger(this.minLevel, this.maxLevel);
+            spec.level = species.getBaseStats().getSpawnLevel() + UtilRandom.randomInteger(0, species.getBaseStats().getSpawnLevelRange());
 
             return spec.create();
         }
