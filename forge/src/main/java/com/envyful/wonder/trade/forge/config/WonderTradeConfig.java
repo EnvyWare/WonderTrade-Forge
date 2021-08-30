@@ -23,6 +23,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
+    private int numberInPool = 30;
 
     public WonderTradeConfig() {}
 
@@ -36,6 +37,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public int getMinRequiredLevel() {
         return this.minRequiredLevel;
+    }
+
+    public int getNumberInPool() {
+        return this.numberInPool;
     }
 
     public SQLDatabaseDetails getDatabaseDetails() {
