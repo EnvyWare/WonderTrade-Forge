@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForge> {
 
     private long lastTrade = -1;
+    private int selected = -1;
 
     public WonderTradeAttribute(WonderTradeForge manager, ForgeEnvyPlayer parent) {
         super(manager, parent);
@@ -26,6 +27,14 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
         return (System.currentTimeMillis() - this.lastTrade) >
                 TimeUnit.SECONDS.toMillis(this.manager.getConfig().getCooldownSeconds());
+    }
+
+    public int getSelected() {
+        return this.selected;
+    }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
@@ -28,6 +29,7 @@ public class WonderTradeForge {
 
     private static WonderTradeForge instance;
 
+    private ForgePlayerManager playerManager = new ForgePlayerManager();
     private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private Database database;
@@ -74,5 +76,9 @@ public class WonderTradeForge {
 
     public Database getDatabase() {
         return this.database;
+    }
+
+    public ForgePlayerManager getPlayerManager() {
+        return this.playerManager;
     }
 }
