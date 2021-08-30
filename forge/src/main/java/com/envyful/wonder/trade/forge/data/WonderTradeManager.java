@@ -1,28 +1,30 @@
 package com.envyful.wonder.trade.forge.data;
 
 import com.envyful.api.concurrency.UtilConcurrency;
-import com.envyful.api.json.UtilGson;
 import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.storage.UtilPixelmonPlayer;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.event.WonderTradeEvent;
 import com.google.common.collect.Lists;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.io.*;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WonderTradeManager {
 
-    private final Path tradePoolFile = Paths.get("config/WonderTrade/pool.json");
+    private final Path tradePoolFile = Paths.get("config/WonderTradeForge/pool.json");
     private final List<Pokemon> tradePool = Lists.newArrayList();
 
     private final WonderTradeForge mod;
@@ -31,10 +33,6 @@ public class WonderTradeManager {
         this.mod = mod;
 
         File file = tradePoolFile.toFile();
-
-        if (!file.getParentFile().exists()) {
-            file.mkdirs();
-        }
 
         if (!file.exists()) {
             this.createFile(file);
@@ -64,8 +62,27 @@ public class WonderTradeManager {
     }
 
     private void saveFile(File file) {
+        List<PokemonSpec> tradePool = Lists.newArrayList();
+
+        for (Pokemon pokemon : this.tradePool) {
+            PokemonSpec spec = new PokemonSpec();
+            spec.name = pokemon.getSpecies().name;
+            spec.level = pokemon.getLevel();
+            spec.shiny = pokemon.isShiny();
+            tradePool.add(spec);
+        }
+
         try {
-            UtilGson.GSON.toJson(this.tradePool, ArrayList.class, new JsonWriter(new FileWriter(file)));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+
+            for (PokemonSpec pokemonSpec : tradePool) {
+                ByteBuf buf = Unpooled.buffer();
+                pokemonSpec.toBytes(buf);
+                bufferedWriter.write(buf.toString(StandardCharsets.UTF_8));
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,8 +90,17 @@ public class WonderTradeManager {
 
     private void loadPool(File file) {
         try {
-            this.tradePool.addAll(UtilGson.GSON.fromJson(new JsonReader(new FileReader(file)), ArrayList.class));
-        } catch (FileNotFoundException e) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String line = null;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                ByteBuf byteBuf = ByteBufUtil.encodeString(Unpooled.buffer().alloc(),
+                        CharBuffer.wrap(line.toCharArray()), StandardCharsets.UTF_8);
+                PokemonSpec spec = new PokemonSpec();
+                spec.fromBytes(byteBuf);
+                this.tradePool.add(spec.create());
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

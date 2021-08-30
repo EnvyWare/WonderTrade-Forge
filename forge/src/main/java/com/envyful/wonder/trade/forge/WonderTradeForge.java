@@ -12,8 +12,10 @@ import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
+import com.envyful.wonder.trade.forge.data.WonderTradeManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import java.io.IOException;
@@ -36,8 +38,8 @@ public class WonderTradeForge {
     private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private Database database;
-
     private WonderTradeConfig config;
+    private WonderTradeManager manager;
 
     @Mod.EventHandler
     public void onServerStarting(FMLPreInitializationEvent event) {
@@ -71,6 +73,11 @@ public class WonderTradeForge {
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
         this.commandFactory.registerCommand(event.getServer(), new WonderTradeCommand());
+    }
+
+    @Mod.EventHandler
+    public void onServerStarted(FMLServerStartedEvent event) {
+        UtilConcurrency.runAsync(() -> this.manager = new WonderTradeManager(this));
     }
 
     public static WonderTradeForge getInstance() {
