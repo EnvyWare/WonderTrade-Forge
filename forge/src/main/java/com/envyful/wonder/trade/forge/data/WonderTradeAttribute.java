@@ -2,6 +2,7 @@ package com.envyful.wonder.trade.forge.data;
 
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
+import com.envyful.api.player.EnvyPlayer;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 
@@ -16,8 +17,8 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
     private long lastTrade = -1;
     private int selected = -1;
 
-    public WonderTradeAttribute(WonderTradeForge manager, ForgeEnvyPlayer parent) {
-        super(manager, parent);
+    public WonderTradeAttribute(WonderTradeForge manager, EnvyPlayer<?> parent) {
+        super(manager, (ForgeEnvyPlayer) parent);
     }
 
     public boolean canTrade() {

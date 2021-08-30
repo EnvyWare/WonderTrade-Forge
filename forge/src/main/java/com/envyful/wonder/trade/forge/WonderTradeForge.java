@@ -11,6 +11,7 @@ import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
+import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -44,6 +45,7 @@ public class WonderTradeForge {
 
         GuiFactory.setPlatformFactory(new ForgeGuiFactory());
 
+        this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
         this.loadConfig();
 
         UtilConcurrency.runAsync(() -> {
