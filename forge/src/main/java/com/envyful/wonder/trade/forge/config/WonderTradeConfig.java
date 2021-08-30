@@ -19,7 +19,8 @@ import com.envyful.api.config.type.SQLDatabaseDetails;
 public class WonderTradeConfig extends AbstractYamlConfig {
 
     private GenerationSettings defaultGeneratorSettings = new GenerationSettings();
-    private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails();
+    private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails("WonderTrade", "0.0.0.0",
+            3306, "admin", "password", "WonderTrade");
 
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
