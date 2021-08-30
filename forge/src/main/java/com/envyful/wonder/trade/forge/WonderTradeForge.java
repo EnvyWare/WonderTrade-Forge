@@ -5,7 +5,9 @@ import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
@@ -39,6 +41,9 @@ public class WonderTradeForge {
     @Mod.EventHandler
     public void onServerStarting(FMLPreInitializationEvent event) {
         instance = this;
+
+        GuiFactory.setPlatformFactory(new ForgeGuiFactory());
+
         this.loadConfig();
 
         UtilConcurrency.runAsync(() -> {
