@@ -13,7 +13,7 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     private List<String> pokemonBroadcast = Lists.newArrayList(
             " ",
-            "&e%forge_name%&7 added a &e%is_shiny%%is_ultra_beast%%is_legend%&7 to the &b&lWonderTrade",
+            "&e%forge_name%&7 added a &e%is_shiny%%is_ultra_beast%%is_legend%&b%pokemon%&7 to the &b&lWonderTrade",
             " "
     );
 

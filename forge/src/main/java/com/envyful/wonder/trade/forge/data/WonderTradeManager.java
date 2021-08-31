@@ -179,6 +179,7 @@ public class WonderTradeManager {
                 .replace("%is_shiny%", newPoke.isShiny() ? this.mod.getLocale().getShinyReplacement() : "")
                 .replace("%is_ultra_beast%", newPoke.isShiny() ? this.mod.getLocale().getUltraBeastReplacement() : "")
                 .replace("%is_legend%", newPoke.isShiny() ? this.mod.getLocale().getLegendReplacement() : "")
+                .replace("%pokemon%", newPoke.getSpecies().getPokemonName())
         );
     }
 }
