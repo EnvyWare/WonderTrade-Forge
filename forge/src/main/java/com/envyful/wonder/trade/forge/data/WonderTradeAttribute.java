@@ -102,7 +102,7 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
         }
 
         if (secondsPart > 0) {
-            builder.append(seconds).append("s");
+            builder.append(secondsPart).append("s");
         }
 
         return builder.toString();
