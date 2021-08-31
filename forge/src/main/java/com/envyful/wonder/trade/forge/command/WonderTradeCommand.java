@@ -19,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
                 "wt"
         }
 )
-@SubCommands(ReloadCommand.class)
+@SubCommands({ReloadCommand.class, ResetCooldownCommand.class})
 public class WonderTradeCommand {
 
     @CommandProcessor

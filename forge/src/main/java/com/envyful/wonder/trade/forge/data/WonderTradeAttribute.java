@@ -34,6 +34,10 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
         this.lastTrade = System.currentTimeMillis();
     }
 
+    public void resetCooldown() {
+        this.lastTrade = -1;
+    }
+
     public int getSelected() {
         return this.selected;
     }
