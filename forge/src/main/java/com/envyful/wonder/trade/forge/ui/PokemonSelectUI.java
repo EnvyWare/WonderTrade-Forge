@@ -64,7 +64,7 @@ public class PokemonSelectUI {
                                         ""
                                 ).build())
                         .build());
-            } else if (pokemon.getPersistentData().hasKey("Untradable")) {
+            } else if (pokemon.hasSpecFlag("untradable")) {
                 pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(new ItemBuilder()
                                 .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
