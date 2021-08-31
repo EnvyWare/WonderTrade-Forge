@@ -37,14 +37,18 @@ public class WonderTradeManager {
     public WonderTradeManager(WonderTradeForge mod) {
         this.mod = mod;
 
-        File file = tradePoolFile.toFile();
+        if (this.mod.getConfig().isPersistentLegendPool()) {
+            File file = tradePoolFile.toFile();
 
-        if (!file.exists()) {
-            this.createFile(file);
-            this.generatePool();
-            this.saveFile(file);
+            if (!file.exists()) {
+                this.createFile(file);
+                this.generatePool();
+                this.saveFile(file);
+            } else {
+                this.loadPool(file);
+            }
         } else {
-            this.loadPool(file);
+            this.generatePool();
         }
     }
 
@@ -63,10 +67,18 @@ public class WonderTradeManager {
     }
 
     public void saveFile() {
+        if (!this.mod.getConfig().isPersistentLegendPool()) {
+            return;
+        }
+
         UtilConcurrency.runAsync(() -> this.saveFile(this.tradePoolFile.toFile()));
     }
 
     private void saveFile(File file) {
+        if (!this.mod.getConfig().isPersistentLegendPool()) {
+            return;
+        }
+
         List<PokemonSpec> tradePool = Lists.newArrayList();
 
         for (Pokemon pokemon : this.tradePool) {

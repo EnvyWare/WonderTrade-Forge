@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -81,6 +82,13 @@ public class WonderTradeForge {
     @Mod.EventHandler
     public void onServerStarted(FMLServerStartedEvent event) {
         UtilConcurrency.runAsync(() -> this.manager = new WonderTradeManager(this));
+    }
+
+    @Mod.EventHandler
+    public void onServerStarted(FMLServerStoppingEvent event) {
+        if (this.config.isPersistentLegendPool()) {
+            this.manager.saveFile();
+        }
     }
 
     public static WonderTradeForge getInstance() {
