@@ -34,7 +34,8 @@ public class WonderTradeCommand {
 
         if (!attribute.canTrade()) {
             player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
-                    WonderTradeForge.getInstance().getLocale().getCooldownMessage())));
+                    WonderTradeForge.getInstance().getLocale().getCooldownMessage()
+                            .replace("%cooldown%", attribute.getCooldownFormatted()))));
             return;
         }
 

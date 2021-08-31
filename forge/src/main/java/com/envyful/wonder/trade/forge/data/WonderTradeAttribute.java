@@ -10,9 +10,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForge> {
+
+    private static final long SECONDS_PER_MINUTE = 60;
+    private static final long MINUTES_PER_HOUR = 60;
+    private static final long SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
 
     private long lastTrade = -1;
     private int selected = -1;
@@ -75,5 +80,31 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getCooldownFormatted() {
+        long seconds = Duration.ofMillis(
+                (this.lastTrade + TimeUnit.SECONDS.toMillis(this.manager.getConfig().getCooldownSeconds()))
+                        - System.currentTimeMillis()).getSeconds();
+
+        long hoursPart = (seconds / SECONDS_PER_HOUR) % 24;
+        long minutesPart = (seconds / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
+        long secondsPart = seconds % SECONDS_PER_MINUTE;
+
+        StringBuilder builder = new StringBuilder();
+
+        if (hoursPart > 0) {
+            builder.append(hoursPart).append("h ");
+        }
+
+        if (minutesPart > 0) {
+            builder.append(minutesPart).append("m ");
+        }
+
+        if (secondsPart > 0) {
+            builder.append(seconds).append("s");
+        }
+
+        return builder.toString();
     }
 }
