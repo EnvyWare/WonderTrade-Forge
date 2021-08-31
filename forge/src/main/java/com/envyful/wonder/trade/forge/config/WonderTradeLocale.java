@@ -13,14 +13,29 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     private List<String> pokemonBroadcast = Lists.newArrayList(
             " ",
-            "&e%forge_name%&7 added a &e%is_shiny%%is_ultra_beasts%%is_legend%&7 to the &b&lWonderTrade",
+            "&e%forge_name%&7 added a &e%is_shiny%%is_ultra_beast%%is_legend%&7 to the &b&lWonderTrade",
             " "
     );
 
+    private String shinyReplacement = "Shiny ";
+    private String ultraBeastReplacement = "UltraBeast ";
+    private String legendReplacement = "Legend ";
     private String tradeSuccessful = "&e&l(!) &eWonderTrade was successful! Check your party to see what you got";
 
     public WonderTradeLocale() {
         super();
+    }
+
+    public String getShinyReplacement() {
+        return this.shinyReplacement;
+    }
+
+    public String getUltraBeastReplacement() {
+        return this.ultraBeastReplacement;
+    }
+
+    public String getLegendReplacement() {
+        return this.legendReplacement;
     }
 
     public String getTradeSuccessful() {

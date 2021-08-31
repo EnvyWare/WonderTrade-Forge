@@ -124,8 +124,7 @@ public class WonderTradeManager {
         if (this.shouldBroadcast(newPoke)) {
             for (String broadcast : this.mod.getLocale().getPokemonBroadcast()) {
                 FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
-                        .sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
-                                UtilPlaceholder.replaceIdentifiers(player, broadcast))), false);
+                        .sendMessage(new TextComponentString(this.getFormattedLine(player, newPoke, broadcast)), false);
             }
         }
 
@@ -154,5 +153,13 @@ public class WonderTradeManager {
         }
 
         return newPoke.isShiny() && broadcastSettings.isBroadcastShinies();
+    }
+
+    private String getFormattedLine(EnvyPlayer<EntityPlayerMP> player, Pokemon newPoke, String line) {
+        return UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(player, line)
+                .replace("%is_shiny%", newPoke.isShiny() ? this.mod.getLocale().getShinyReplacement() : "")
+                .replace("%is_ultra_beast%", newPoke.isShiny() ? this.mod.getLocale().getUltraBeastReplacement() : "")
+                .replace("%is_legend%", newPoke.isShiny() ? this.mod.getLocale().getLegendReplacement() : "")
+        );
     }
 }
