@@ -138,7 +138,7 @@ public class WonderTradeManager {
         if (this.shouldBroadcast(newPoke)) {
             for (String broadcast : this.mod.getLocale().getPokemonBroadcast()) {
                 FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
-                        .sendMessage(new TextComponentString(this.getFormattedLine(player, newPoke, broadcast)), false);
+                        .sendMessage(new TextComponentString(this.getFormattedLine(player, newPoke, broadcast)));
             }
         }
 
