@@ -64,6 +64,16 @@ public class PokemonSelectUI {
                                         ""
                                 ).build())
                         .build());
+            } else if (pokemon.getPersistentData().hasKey("Untradable")) {
+                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
+                        .itemStack(new ItemBuilder()
+                                .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
+                                .damage(14)
+                                .name(UtilChatColour.translateColourCodes('&', "&c&lUntradeable"))
+                                .lore(
+                                        ""
+                                ).build())
+                        .build());
             } else {
                 int finalI = i;
                 pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
