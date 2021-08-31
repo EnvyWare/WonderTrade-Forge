@@ -30,6 +30,10 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
                 TimeUnit.SECONDS.toMillis(this.manager.getConfig().getCooldownSeconds());
     }
 
+    public void updateLastTrade() {
+        this.lastTrade = System.currentTimeMillis();
+    }
+
     public int getSelected() {
         return this.selected;
     }
