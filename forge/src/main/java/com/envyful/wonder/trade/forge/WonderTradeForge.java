@@ -10,6 +10,7 @@ import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
+import com.envyful.wonder.trade.forge.config.WonderTradeLocale;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.envyful.wonder.trade.forge.data.WonderTradeManager;
@@ -39,6 +40,7 @@ public class WonderTradeForge {
 
     private Database database;
     private WonderTradeConfig config;
+    private WonderTradeLocale locale;
     private WonderTradeManager manager;
 
     @Mod.EventHandler
@@ -65,6 +67,7 @@ public class WonderTradeForge {
     public void loadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(WonderTradeConfig.class);
+            this.locale = YamlConfigFactory.getInstance(WonderTradeLocale.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,5 +101,9 @@ public class WonderTradeForge {
 
     public WonderTradeManager getManager() {
         return this.manager;
+    }
+
+    public WonderTradeLocale getLocale() {
+        return this.locale;
     }
 }
