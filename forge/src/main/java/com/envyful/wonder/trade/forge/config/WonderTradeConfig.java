@@ -1,24 +1,23 @@
 package com.envyful.wonder.trade.forge.config;
 
 import com.envyful.api.config.data.ConfigPath;
+import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.math.UtilRandom;
 import com.google.common.collect.Sets;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
-import com.pixelmonmod.pixelmon.api.spawning.SpawnSet;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.envyful.api.config.type.SQLDatabaseDetails;
-
 @ConfigPath("config/WonderTradeForge/config.yml")
 @ConfigSerializable
 public class WonderTradeConfig extends AbstractYamlConfig {
 
+    private BroadcastSettings broadcastSettings = new BroadcastSettings();
     private GenerationSettings defaultGeneratorSettings = new GenerationSettings();
     private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails("WonderTrade", "0.0.0.0",
             3306, "admin", "password", "WonderTrade");
@@ -47,6 +46,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public SQLDatabaseDetails getDatabaseDetails() {
         return this.databaseDetails;
+    }
+
+    public BroadcastSettings getBroadcastSettings() {
+        return this.broadcastSettings;
     }
 
     @ConfigSerializable
@@ -79,6 +82,31 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             }
 
             return species;
+        }
+    }
+
+    @ConfigSerializable
+    public static class BroadcastSettings {
+
+        private boolean alwaysBroadcast = true;
+        private boolean broadcastLegends = true;
+        private boolean broadcastUltraBeasts = true;
+        private boolean broadcastShinies = true;
+
+        public boolean isAlwaysBroadcast() {
+            return this.alwaysBroadcast;
+        }
+
+        public boolean isBroadcastLegends() {
+            return this.broadcastLegends;
+        }
+
+        public boolean isBroadcastUltraBeasts() {
+            return this.broadcastUltraBeasts;
+        }
+
+        public boolean isBroadcastShinies() {
+            return this.broadcastShinies;
         }
     }
 }
