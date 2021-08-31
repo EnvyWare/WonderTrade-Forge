@@ -25,12 +25,12 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
-    private boolean persistentLegendPool = true;
+    private boolean persistentPool = true;
 
     public WonderTradeConfig() {}
 
-    public boolean isPersistentLegendPool() {
-        return this.persistentLegendPool;
+    public boolean isPersistentPool() {
+        return this.persistentPool;
     }
 
     public GenerationSettings getDefaultGeneratorSettings() {

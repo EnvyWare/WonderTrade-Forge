@@ -32,7 +32,7 @@ public class WonderTradeCommand {
         }
 
         if (!attribute.canTrade()) {
-            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(player,
+            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
                     WonderTradeForge.getInstance().getLocale().getCooldownMessage())));
             return;
         }

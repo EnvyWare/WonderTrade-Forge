@@ -86,7 +86,7 @@ public class WonderTradeForge {
 
     @Mod.EventHandler
     public void onServerStarted(FMLServerStoppingEvent event) {
-        if (this.config.isPersistentLegendPool()) {
+        if (this.config.isPersistentPool()) {
             this.manager.saveFile();
         }
     }

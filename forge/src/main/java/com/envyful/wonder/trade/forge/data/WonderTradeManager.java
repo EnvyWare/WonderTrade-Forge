@@ -37,7 +37,7 @@ public class WonderTradeManager {
     public WonderTradeManager(WonderTradeForge mod) {
         this.mod = mod;
 
-        if (this.mod.getConfig().isPersistentLegendPool()) {
+        if (this.mod.getConfig().isPersistentPool()) {
             File file = tradePoolFile.toFile();
 
             if (!file.exists()) {
@@ -67,7 +67,7 @@ public class WonderTradeManager {
     }
 
     public void saveFile() {
-        if (!this.mod.getConfig().isPersistentLegendPool()) {
+        if (!this.mod.getConfig().isPersistentPool()) {
             return;
         }
 
@@ -75,7 +75,7 @@ public class WonderTradeManager {
     }
 
     private void saveFile(File file) {
-        if (!this.mod.getConfig().isPersistentLegendPool()) {
+        if (!this.mod.getConfig().isPersistentPool()) {
             return;
         }
 
@@ -147,7 +147,7 @@ public class WonderTradeManager {
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
         player.message(UtilChatColour.translateColourCodes('&',
-                UtilPlaceholder.replaceIdentifiers(player, this.mod.getLocale().getTradeSuccessful())));
+                UtilPlaceholder.replaceIdentifiers(player.getParent(), this.mod.getLocale().getTradeSuccessful())));
 
         UtilConcurrency.runAsync(this::saveFile);
     }
@@ -171,7 +171,7 @@ public class WonderTradeManager {
     }
 
     private String getFormattedLine(EnvyPlayer<EntityPlayerMP> player, Pokemon newPoke, String line) {
-        return UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(player, line)
+        return UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(player.getParent(), line)
                 .replace("%is_shiny%", newPoke.isShiny() ? this.mod.getLocale().getShinyReplacement() : "")
                 .replace("%is_ultra_beast%", newPoke.isShiny() ? this.mod.getLocale().getUltraBeastReplacement() : "")
                 .replace("%is_legend%", newPoke.isShiny() ? this.mod.getLocale().getLegendReplacement() : "")
