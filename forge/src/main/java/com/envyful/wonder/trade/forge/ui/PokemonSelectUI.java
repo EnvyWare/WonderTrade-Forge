@@ -64,9 +64,19 @@ public class PokemonSelectUI {
                                 ).build())
                         .build());
             } else {
+                int finalI = i;
                 pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(UtilSprite.getPixelmonSprite(pokemon))
-                        .clickHandler((envyPlayer, clickType) -> {})
+                        .itemStack(UtilSprite.getPokemonElement(pokemon))
+                        .clickHandler((envyPlayer, clickType) -> {
+                            WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+
+                            if (attribute != null) {
+                                attribute.setSelected(finalI);
+                                pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
+                                        .itemStack(UtilSprite.getPokemonElement(all[attribute.getSelected()]))
+                                        .build());
+                            }
+                        })
                         .build());
             }
         }
@@ -97,10 +107,17 @@ public class PokemonSelectUI {
                         .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
                         .damage(5)
                         .name(UtilChatColour.translateColourCodes('&', "&a&lClick to confirm"))
-                        .lore(
-                                ""
-                        ).build())
-                .clickHandler((envyPlayer, clickType) -> {}).build());
+                        .build())
+                .clickHandler((envyPlayer, clickType) -> {
+                    WonderTradeAttribute att = player.getAttribute(WonderTradeForge.class);
+
+                    if (att.getSelected() == -1) {
+                        return;
+                    }
+
+                    WonderTradeForge.getInstance().getManager()
+                            .replaceRandomPokemon((EnvyPlayer<EntityPlayerMP>) envyPlayer, all[att.getSelected()]);
+                }).build());
 
         GuiFactory.guiBuilder()
                 .addPane(pane)

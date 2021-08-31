@@ -95,4 +95,8 @@ public class WonderTradeForge {
     public ForgePlayerManager getPlayerManager() {
         return this.playerManager;
     }
+
+    public WonderTradeManager getManager() {
+        return this.manager;
+    }
 }
