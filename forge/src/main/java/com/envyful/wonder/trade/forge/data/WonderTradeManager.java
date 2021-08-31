@@ -60,7 +60,9 @@ public class WonderTradeManager {
         }
     }
 
-    private void generatePool() {
+    public void generatePool() {
+        this.tradePool.clear();
+
         for (int i = 0; i < this.mod.getConfig().getNumberInPool(); i++) {
             this.tradePool.add(this.mod.getConfig().getDefaultGeneratorSettings().build());
         }
