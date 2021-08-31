@@ -99,6 +99,7 @@ public class WonderTradeManager {
                 pokemonSpec.toBytes(buf);
                 bufferedWriter.write(buf.toString(StandardCharsets.UTF_8));
                 bufferedWriter.newLine();
+                buf.release();
             }
 
             bufferedWriter.close();
@@ -118,6 +119,7 @@ public class WonderTradeManager {
                 PokemonSpec spec = new PokemonSpec();
                 spec.fromBytes(byteBuf);
                 this.tradePool.add(spec.create());
+                byteBuf.release();
             }
         } catch (IOException e) {
             e.printStackTrace();
