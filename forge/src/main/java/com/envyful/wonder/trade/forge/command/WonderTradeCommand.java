@@ -6,7 +6,6 @@ import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.ui.PokemonSelectUI;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 @Command(
