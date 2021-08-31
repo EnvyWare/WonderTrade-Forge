@@ -5,6 +5,7 @@ import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.storage.UtilPixelmonPlayer;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
+import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.data.event.WonderTradeEvent;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -116,11 +117,33 @@ public class WonderTradeManager {
             return;
         }
 
+        if (this.shouldBroadcast(newPoke)) {
+            //TODO: broadcat from locale
+        }
+
         UtilPixelmonPlayer.getParty(player.getParent()).set(newPoke.getStorageAndPosition().getSecond(), pokemon);
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
         //TODO: send message
 
         UtilConcurrency.runAsync(this::saveFile);
+    }
+
+    private boolean shouldBroadcast(Pokemon newPoke) {
+        WonderTradeConfig.BroadcastSettings broadcastSettings = this.mod.getConfig().getBroadcastSettings();
+
+        if (broadcastSettings.isAlwaysBroadcast()) {
+            return true;
+        }
+
+        if (newPoke.isLegendary() && broadcastSettings.isBroadcastLegends()) {
+            return true;
+        }
+
+        if (newPoke.getSpecies().isUltraBeast() && broadcastSettings.isBroadcastUltraBeasts()) {
+            return true;
+        }
+
+        return newPoke.isShiny() && broadcastSettings.isBroadcastShinies();
     }
 }
