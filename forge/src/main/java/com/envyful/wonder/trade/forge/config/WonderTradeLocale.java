@@ -21,9 +21,14 @@ public class WonderTradeLocale extends AbstractYamlConfig {
     private String ultraBeastReplacement = "UltraBeast ";
     private String legendReplacement = "Legend ";
     private String tradeSuccessful = "&e&l(!) &eWonderTrade was successful! Check your party to see what you got";
+    private String cooldownMessage = "&c&l(!) &cYou cannot use the WonderTrade yet. You're still on cooldown";
 
     public WonderTradeLocale() {
         super();
+    }
+
+    public String getCooldownMessage() {
+        return this.cooldownMessage;
     }
 
     public String getShinyReplacement() {

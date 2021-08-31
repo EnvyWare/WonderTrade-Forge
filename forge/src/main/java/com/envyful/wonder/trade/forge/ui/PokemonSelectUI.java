@@ -21,6 +21,7 @@ public class PokemonSelectUI {
     public static final Displayable BACKGROUND_ITEM = GuiFactory.displayableBuilder(ItemStack.class)
             .itemStack(new ItemBuilder()
                     .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
+                    .name(" ")
                     .damage(15)
                     .build())
             .build();

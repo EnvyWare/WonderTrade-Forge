@@ -114,6 +114,8 @@ public class WonderTradeManager {
         WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
         Pokemon pokemon = UtilRandom.getRandomElement(this.tradePool);
 
+        attribute.setSelected(-1);
+
         WonderTradeEvent event = new WonderTradeEvent(player, newPoke, pokemon);
         MinecraftForge.EVENT_BUS.post(event);
 
@@ -128,6 +130,7 @@ public class WonderTradeManager {
             }
         }
 
+        attribute.updateLastTrade();
         UtilPixelmonPlayer.getParty(player.getParent()).set(newPoke.getStorageAndPosition().getSecond(), pokemon);
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
