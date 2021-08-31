@@ -135,6 +135,7 @@ public class PokemonSelectUI {
                 .title("WonderTrade")
                 .height(5)
                 .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
+                .setCloseConsumer(envyPlayer -> {})
                 .build()
                 .open(player);
     }

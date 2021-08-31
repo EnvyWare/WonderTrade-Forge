@@ -177,11 +177,11 @@ public class WonderTradeManager {
     }
 
     private String getFormattedLine(EnvyPlayer<EntityPlayerMP> player, Pokemon newPoke, String line) {
-        return UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(player.getParent(), line)
+        return UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(player.getParent(), line
                 .replace("%is_shiny%", newPoke.isShiny() ? this.mod.getLocale().getShinyReplacement() : "")
                 .replace("%is_ultra_beast%", newPoke.isShiny() ? this.mod.getLocale().getUltraBeastReplacement() : "")
                 .replace("%is_legend%", newPoke.isShiny() ? this.mod.getLocale().getLegendReplacement() : "")
-                .replace("%pokemon%", newPoke.getSpecies().getPokemonName())
+                .replace("%pokemon%", newPoke.getSpecies().getPokemonName()))
         );
     }
 }
