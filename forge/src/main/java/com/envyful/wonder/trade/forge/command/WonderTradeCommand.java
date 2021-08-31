@@ -6,6 +6,7 @@ import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.api.reforged.pixelmon.storage.UtilPixelmonPlayer;
 import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
@@ -34,6 +35,12 @@ public class WonderTradeCommand {
         if (!attribute.canTrade()) {
             player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
                     WonderTradeForge.getInstance().getLocale().getCooldownMessage())));
+            return;
+        }
+
+        if (UtilPixelmonPlayer.getParty(sender).getTeam().size() <= 1) {
+            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
+                    WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
             return;
         }
 

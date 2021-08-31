@@ -22,9 +22,14 @@ public class WonderTradeLocale extends AbstractYamlConfig {
     private String legendReplacement = "Legend ";
     private String tradeSuccessful = "&e&l(!) &eWonderTrade was successful! Check your party to see what you got";
     private String cooldownMessage = "&c&l(!) &cYou cannot use the WonderTrade yet. You're still on cooldown";
+    private String minimumPartySize = "&c&l(!) &cYou must have more than 1 pokemon in your party!";
 
     public WonderTradeLocale() {
         super();
+    }
+
+    public String getMinimumPartySize() {
+        return this.minimumPartySize;
     }
 
     public String getCooldownMessage() {
