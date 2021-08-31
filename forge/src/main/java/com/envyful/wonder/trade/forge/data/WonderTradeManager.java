@@ -1,9 +1,11 @@
 package com.envyful.wonder.trade.forge.data;
 
 import com.envyful.api.concurrency.UtilConcurrency;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.storage.UtilPixelmonPlayer;
+import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.data.event.WonderTradeEvent;
@@ -14,7 +16,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.io.*;
 import java.nio.CharBuffer;
@@ -118,13 +122,18 @@ public class WonderTradeManager {
         }
 
         if (this.shouldBroadcast(newPoke)) {
-            //TODO: broadcat from locale
+            for (String broadcast : this.mod.getLocale().getPokemonBroadcast()) {
+                FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+                        .sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
+                                UtilPlaceholder.replaceIdentifiers(player, broadcast))), false);
+            }
         }
 
         UtilPixelmonPlayer.getParty(player.getParent()).set(newPoke.getStorageAndPosition().getSecond(), pokemon);
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
-        //TODO: send message
+        player.message(UtilChatColour.translateColourCodes('&',
+                UtilPlaceholder.replaceIdentifiers(player, this.mod.getLocale().getTradeSuccessful())));
 
         UtilConcurrency.runAsync(this::saveFile);
     }
