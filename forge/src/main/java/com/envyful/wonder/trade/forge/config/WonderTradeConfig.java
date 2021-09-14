@@ -74,7 +74,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
             spec.name = species.name;
             spec.shiny = ThreadLocalRandom.current().nextDouble() < this.shinyChance;
-            spec.level = species.getBaseStats().getSpawnLevel() + UtilRandom.randomInteger(0, species.getBaseStats().getSpawnLevelRange());
+            spec.level = species.getBaseStats().getSpawnLevel() + UtilRandom.randomInteger(0,
+                    Math.max(1, species.getBaseStats().getSpawnLevelRange()));
 
             return spec.create();
         }
