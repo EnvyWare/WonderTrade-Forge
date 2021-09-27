@@ -77,7 +77,9 @@ public class PokemonSelectUI {
             } else {
                 int finalI = i;
                 pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(UtilSprite.getPokemonElement(pokemon))
+                        .itemStack(new ItemBuilder(UtilSprite.getPokemonElement(pokemon))
+                                           .name("§b" + pokemon.getSpecies().getLocalizedName() + (!pokemon.getDisplayName().isEmpty() ? " (" + pokemon.getDisplayName() + ")" : "") + "")
+                                           .build())
                         .clickHandler((envyPlayer, clickType) -> {
                             WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
 
