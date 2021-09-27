@@ -86,7 +86,9 @@ public class PokemonSelectUI {
                             if (attribute != null) {
                                 attribute.setSelected(finalI);
                                 pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                                        .itemStack(UtilSprite.getPokemonElement(all[attribute.getSelected()]))
+                                        .itemStack(new ItemBuilder(UtilSprite.getPokemonElement(all[attribute.getSelected()]))
+                                                           .name("§b" + pokemon.getSpecies().getLocalizedName() + (!pokemon.getDisplayName().isEmpty() ? " (" + pokemon.getDisplayName() + ")" : "") + "")
+                                                           .build())
                                         .build());
                             }
                         })
