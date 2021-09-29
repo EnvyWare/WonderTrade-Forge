@@ -154,7 +154,7 @@ public class WonderTradeManager {
         this.tradePool.add(newPoke);
         player.message(UtilChatColour.translateColourCodes('&',
                 UtilPlaceholder.replaceIdentifiers(player.getParent(), this.mod.getLocale().getTradeSuccessful()
-                .replace("%species%", newPoke.getSpecies().getLocalizedName()))));
+                .replace("%species%", pokemon.getSpecies().getLocalizedName()))));
 
         UtilConcurrency.runAsync(this::saveFile);
     }
