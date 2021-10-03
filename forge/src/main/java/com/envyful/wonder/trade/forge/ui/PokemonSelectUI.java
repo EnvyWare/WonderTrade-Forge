@@ -101,11 +101,7 @@ public class PokemonSelectUI {
         }
 
         pane.set(7, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                .itemStack(new ItemBuilder()
-                        .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
-                        .damage(5)
-                        .name(UtilChatColour.translateColourCodes('&', "&a&lClick to confirm"))
-                        .build())
+                .itemStack(UtilConfigItem.fromConfigItem(config.getClickToConfirmButton()))
                 .clickHandler((envyPlayer, clickType) -> {
                     WonderTradeAttribute att = player.getAttribute(WonderTradeForge.class);
 

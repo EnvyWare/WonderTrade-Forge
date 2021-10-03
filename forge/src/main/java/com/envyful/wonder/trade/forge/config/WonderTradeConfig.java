@@ -38,12 +38,19 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private ConfigItem untradeableItem = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 14,
                                                         "&c&lUntradeable", Lists.newArrayList(), Maps.newHashMap());
 
+    private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 5,
+                                                        "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap());
+
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
     private boolean persistentPool = true;
 
     public WonderTradeConfig() {}
+
+    public ConfigItem getClickToConfirmButton() {
+        return this.clickToConfirmButton;
+    }
 
     public ConfigItem getUntradeableItem() {
         return this.untradeableItem;
