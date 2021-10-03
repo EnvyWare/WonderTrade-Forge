@@ -91,12 +91,7 @@ public class PokemonSelectUI {
                     .build());
         } else {
             pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                    .itemStack(new ItemBuilder()
-                            .type(Item.getByNameOrId("minecraft:barrier"))
-                            .name(UtilChatColour.translateColourCodes('&', "&c&lNone selected"))
-                            .lore(
-                                    ""
-                            ).build())
+                    .itemStack(UtilConfigItem.fromConfigItem(config.getNoneSelectedItem()))
                     .build());
         }
 

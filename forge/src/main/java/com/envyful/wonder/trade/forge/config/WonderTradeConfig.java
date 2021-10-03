@@ -41,12 +41,19 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 5,
                                                         "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap());
 
+    private ConfigItem noneSelectedItem = new ConfigItem("minecraft:barrier", 1, (byte) 0,
+                                                             "&c&lNone selected", Lists.newArrayList(), Maps.newHashMap());
+
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
     private boolean persistentPool = true;
 
     public WonderTradeConfig() {}
+
+    public ConfigItem getNoneSelectedItem() {
+        return this.noneSelectedItem;
+    }
 
     public ConfigItem getClickToConfirmButton() {
         return this.clickToConfirmButton;
