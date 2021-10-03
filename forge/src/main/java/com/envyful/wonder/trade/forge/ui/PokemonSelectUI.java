@@ -1,9 +1,10 @@
 package com.envyful.wonder.trade.forge.ui;
 
+import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
+import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.gui.factory.GuiFactory;
-import com.envyful.api.gui.item.Displayable;
 import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
@@ -18,23 +19,18 @@ import net.minecraft.item.ItemStack;
 
 public class PokemonSelectUI {
 
-    public static final Displayable BACKGROUND_ITEM = GuiFactory.displayableBuilder(ItemStack.class)
-            .itemStack(new ItemBuilder()
-                    .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
-                    .name(" ")
-                    .damage(15)
-                    .build())
-            .build();
-
     public static void openUI(EnvyPlayer<EntityPlayerMP> player) {
         Pane pane = GuiFactory.paneBuilder()
-                .height(5)
+                .height(WonderTradeForge.getInstance().getConfig().getGuiSettings().getHeight())
                 .width(9)
                 .topLeftX(0)
                 .topLeftY(0)
                 .build();
 
-        pane.fill(BACKGROUND_ITEM);
+        for (ConfigItem fillerItem : WonderTradeForge.getInstance().getConfig().getGuiSettings().getFillerItems()) {
+            pane.add(GuiFactory.displayableBuilder(ItemStack.class)
+                             .itemStack(UtilConfigItem.fromConfigItem(fillerItem)).build());
+        }
 
         PlayerPartyStorage party = UtilPixelmonPlayer.getParty(player.getParent());
         Pokemon[] all = party.getAll();
@@ -136,8 +132,8 @@ public class PokemonSelectUI {
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
-                .title("WonderTrade")
-                .height(5)
+                .title(WonderTradeForge.getInstance().getConfig().getGuiSettings().getTitle())
+                .height(WonderTradeForge.getInstance().getConfig().getGuiSettings().getHeight())
                 .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
                 .setCloseConsumer(envyPlayer -> {})
                 .build()

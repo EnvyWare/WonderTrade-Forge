@@ -1,9 +1,14 @@
 package com.envyful.wonder.trade.forge.config;
 
 import com.envyful.api.config.data.ConfigPath;
+import com.envyful.api.config.type.ConfigInterface;
+import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.math.UtilRandom;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
@@ -22,12 +27,21 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails("WonderTrade", "0.0.0.0",
             3306, "admin", "password", "WonderTrade");
 
+    private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
+            "minecraft:stained_glass_pane", 1, (byte) 15, " ",
+            Lists.newArrayList(), Maps.newHashMap()
+    )));
+
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
     private boolean persistentPool = true;
 
     public WonderTradeConfig() {}
+
+    public ConfigInterface getGuiSettings() {
+        return this.guiSettings;
+    }
 
     public boolean isPersistentPool() {
         return this.persistentPool;
