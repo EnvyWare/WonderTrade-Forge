@@ -10,6 +10,7 @@ import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.api.reforged.pixelmon.storage.UtilPixelmonPlayer;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
+import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
@@ -20,14 +21,16 @@ import net.minecraft.item.ItemStack;
 public class PokemonSelectUI {
 
     public static void openUI(EnvyPlayer<EntityPlayerMP> player) {
+        WonderTradeConfig config = WonderTradeForge.getInstance().getConfig();
+
         Pane pane = GuiFactory.paneBuilder()
-                .height(WonderTradeForge.getInstance().getConfig().getGuiSettings().getHeight())
+                .height(config.getGuiSettings().getHeight())
                 .width(9)
                 .topLeftX(0)
                 .topLeftY(0)
                 .build();
 
-        for (ConfigItem fillerItem : WonderTradeForge.getInstance().getConfig().getGuiSettings().getFillerItems()) {
+        for (ConfigItem fillerItem : config.getGuiSettings().getFillerItems()) {
             pane.add(GuiFactory.displayableBuilder(ItemStack.class)
                              .itemStack(UtilConfigItem.fromConfigItem(fillerItem)).build());
         }
@@ -37,11 +40,11 @@ public class PokemonSelectUI {
 
         for (int i = 0; i < all.length; i++) {
             Pokemon pokemon = all[i];
-            int xPos = 1 + (i / 2);
-            int yPos = 1 + (i % 2);
+            int yPos = 1 + (i / 2);
+            int xPos = 1 + (i % 2);
 
             if (pokemon == null) {
-                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
+                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(new ItemBuilder()
                                 .type(Item.getByNameOrId("minecraft:barrier"))
                                 .name(UtilChatColour.translateColourCodes('&', "&c&l "))
@@ -50,18 +53,12 @@ public class PokemonSelectUI {
                 continue;
             }
 
-            if (pokemon.getLevel() < WonderTradeForge.getInstance().getConfig().getMinRequiredLevel()) {
-                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(new ItemBuilder()
-                                .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
-                                .damage(14)
-                                .name(UtilChatColour.translateColourCodes('&', "&c&lLevel too low"))
-                                .lore(
-                                        ""
-                                ).build())
+            if (pokemon.getLevel() < config.getMinRequiredLevel()) {
+                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
+                        .itemStack(UtilConfigItem.fromConfigItem(config.getLevelTooLowItem()))
                         .build());
             } else if (pokemon.hasSpecFlag("untradable")) {
-                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
+                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(new ItemBuilder()
                                 .type(Item.getByNameOrId("minecraft:stained_glass_pane"))
                                 .damage(14)
@@ -72,7 +69,7 @@ public class PokemonSelectUI {
                         .build());
             } else {
                 int finalI = i;
-                pane.set(yPos, xPos, GuiFactory.displayableBuilder(ItemStack.class)
+                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(new ItemBuilder(UtilSprite.getPokemonElement(pokemon))
                                            .name("§b" + pokemon.getSpecies().getLocalizedName() + (!pokemon.getDisplayName().isEmpty() ? " (" + pokemon.getDisplayName() + ")" : "") + "")
                                            .build())
@@ -132,8 +129,8 @@ public class PokemonSelectUI {
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
-                .title(WonderTradeForge.getInstance().getConfig().getGuiSettings().getTitle())
-                .height(WonderTradeForge.getInstance().getConfig().getGuiSettings().getHeight())
+                .title(config.getGuiSettings().getTitle())
+                .height(config.getGuiSettings().getHeight())
                 .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
                 .setCloseConsumer(envyPlayer -> {})
                 .build()
