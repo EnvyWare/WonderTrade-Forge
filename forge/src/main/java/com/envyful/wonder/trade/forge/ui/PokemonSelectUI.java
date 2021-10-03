@@ -64,18 +64,14 @@ public class PokemonSelectUI {
             } else {
                 int finalI = i;
                 pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(new ItemBuilder(UtilSprite.getPokemonElement(pokemon))
-                                           .name("§b" + pokemon.getSpecies().getLocalizedName() + (!pokemon.getDisplayName().isEmpty() ? " (" + pokemon.getDisplayName() + ")" : "") + "")
-                                           .build())
+                        .itemStack(UtilSprite.getPokemonElement(pokemon))
                         .clickHandler((envyPlayer, clickType) -> {
                             WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
 
                             if (attribute != null) {
                                 attribute.setSelected(finalI);
                                 pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                                        .itemStack(new ItemBuilder(UtilSprite.getPokemonElement(all[attribute.getSelected()]))
-                                                           .name("§b" + pokemon.getSpecies().getLocalizedName() + (!pokemon.getDisplayName().isEmpty() ? " (" + pokemon.getDisplayName() + ")" : "") + "")
-                                                           .build())
+                                        .itemStack(UtilSprite.getPokemonElement(all[attribute.getSelected()]))
                                         .build());
                             }
                         })
