@@ -35,12 +35,19 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private ConfigItem levelTooLowItem = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 14,
                                                         "&c&lLevel too low", Lists.newArrayList(), Maps.newHashMap());
 
+    private ConfigItem untradeableItem = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 14,
+                                                        "&c&lUntradeable", Lists.newArrayList(), Maps.newHashMap());
+
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
     private boolean persistentPool = true;
 
     public WonderTradeConfig() {}
+
+    public ConfigItem getUntradeableItem() {
+        return this.untradeableItem;
+    }
 
     public ConfigItem getLevelTooLowItem() {
         return this.levelTooLowItem;
