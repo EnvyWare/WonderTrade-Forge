@@ -32,7 +32,7 @@ import java.sql.SQLException;
         acceptableRemoteVersions = "*"
 )
 public class WonderTradeForge {
-    public static final String VERSION = "0.1.0";
+    public static final String VERSION = "0.9.0";
 
     private static WonderTradeForge instance;
 
