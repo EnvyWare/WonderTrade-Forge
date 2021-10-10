@@ -110,7 +110,7 @@ public class PokemonSelectUI {
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
-                .title(config.getGuiSettings().getTitle())
+                .title(UtilChatColour.translateColourCodes('&', config.getGuiSettings().getTitle()))
                 .height(config.getGuiSettings().getHeight())
                 .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
                 .setCloseConsumer(envyPlayer -> {})
