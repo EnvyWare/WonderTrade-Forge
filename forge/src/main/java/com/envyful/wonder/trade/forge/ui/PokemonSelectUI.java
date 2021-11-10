@@ -69,8 +69,11 @@ public class PokemonSelectUI {
                             WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
 
                             if (attribute != null) {
+                                int selectedSpritePosX = config.getSelectedSpritePos() % 9;
+                                int selectedSpritePosY = config.getSelectedSpritePos() / 9;
+
                                 attribute.setSelected(finalI);
-                                pane.set(config.getSelectedSpritePos(),
+                                pane.set(selectedSpritePosX, selectedSpritePosY,
                                          GuiFactory.displayable(UtilSprite.getPokemonElement(all[attribute.getSelected()], config.getSpriteConfig())));
                             }
                         })
@@ -85,7 +88,10 @@ public class PokemonSelectUI {
         }
 
         if (attribute.getSelected() != -1) {
-            pane.set(config.getSelectedSpritePos(),
+            int selectedSpritePosX = config.getSelectedSpritePos() % 9;
+            int selectedSpritePosY = config.getSelectedSpritePos() / 9;
+
+            pane.set(selectedSpritePosX, selectedSpritePosY,
                      GuiFactory.displayable(UtilSprite.getPokemonElement(all[attribute.getSelected()], config.getSpriteConfig())));
         } else {
             UtilConfigItem.addConfigItem(pane, config.getNoneSelectedItem());
