@@ -64,15 +64,14 @@ public class PokemonSelectUI {
             } else {
                 int finalI = i;
                 pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(UtilSprite.getPokemonElement(pokemon))
+                        .itemStack(UtilSprite.getPokemonElement(pokemon, config.getSpriteConfig()))
                         .clickHandler((envyPlayer, clickType) -> {
                             WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
 
                             if (attribute != null) {
                                 attribute.setSelected(finalI);
-                                pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                                        .itemStack(UtilSprite.getPokemonElement(all[attribute.getSelected()]))
-                                        .build());
+                                pane.set(config.getSelectedSpritePos(),
+                                         GuiFactory.displayable(UtilSprite.getPokemonElement(all[attribute.getSelected()], config.getSpriteConfig())));
                             }
                         })
                         .build());
@@ -86,13 +85,10 @@ public class PokemonSelectUI {
         }
 
         if (attribute.getSelected() != -1) {
-            pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                    .itemStack(UtilSprite.getPixelmonSprite(all[attribute.getSelected()]))
-                    .build());
+            pane.set(config.getSelectedSpritePos(),
+                     GuiFactory.displayable(UtilSprite.getPokemonElement(all[attribute.getSelected()], config.getSpriteConfig())));
         } else {
-            pane.set(5, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                    .itemStack(UtilConfigItem.fromConfigItem(config.getNoneSelectedItem()))
-                    .build());
+            UtilConfigItem.addConfigItem(pane, config.getNoneSelectedItem());
         }
 
         pane.set(7, 2, GuiFactory.displayableBuilder(ItemStack.class)

@@ -3,9 +3,11 @@ package com.envyful.wonder.trade.forge.config;
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.type.ConfigInterface;
 import com.envyful.api.config.type.ConfigItem;
+import com.envyful.api.config.type.PositionableConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.math.UtilRandom;
+import com.envyful.api.reforged.pixelmon.config.SpriteConfig;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -41,17 +43,21 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 5,
                                                         "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap());
 
-    private ConfigItem noneSelectedItem = new ConfigItem("minecraft:barrier", 1, (byte) 0,
-                                                             "&c&lNone selected", Lists.newArrayList(), Maps.newHashMap());
+    private PositionableConfigItem noneSelectedItem = new PositionableConfigItem("minecraft:barrier", 1, (byte) 0,
+                                                                     "&c&lNone selected", Lists.newArrayList(),
+                                                                                 5, 2, Maps.newHashMap());
+
+    private SpriteConfig spriteConfig = new SpriteConfig();
 
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
+    private int selectedSpritePos = 23;
     private boolean persistentPool = true;
 
     public WonderTradeConfig() {}
 
-    public ConfigItem getNoneSelectedItem() {
+    public PositionableConfigItem getNoneSelectedItem() {
         return this.noneSelectedItem;
     }
 
@@ -97,6 +103,14 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public BroadcastSettings getBroadcastSettings() {
         return this.broadcastSettings;
+    }
+
+    public SpriteConfig getSpriteConfig() {
+        return this.spriteConfig;
+    }
+
+    public int getSelectedSpritePos() {
+        return this.selectedSpritePos;
     }
 
     @ConfigSerializable
