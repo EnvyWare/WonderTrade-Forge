@@ -24,6 +24,8 @@ public class WonderTradeLocale extends AbstractYamlConfig {
     private String cooldownMessage = "&c&l(!) &cYou cannot use the WonderTrade yet. You're still on cooldown";
     private String minimumPartySize = "&c&l(!) &cYou must have more than 1 pokemon in your party!";
 
+    private String removedPokemon = "&e&l(!) &eRemoved pokemon from the WonderTrade pool and replaced it with a new random one";
+
     public WonderTradeLocale() {
         super();
     }
@@ -54,5 +56,9 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     public List<String> getPokemonBroadcast() {
         return this.pokemonBroadcast;
+    }
+
+    public String getRemovedPokemon() {
+        return this.removedPokemon;
     }
 }

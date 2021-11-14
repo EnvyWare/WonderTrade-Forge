@@ -17,6 +17,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,6 +29,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private GenerationSettings defaultGeneratorSettings = new GenerationSettings();
     private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails("WonderTrade", "0.0.0.0",
             3306, "admin", "password", "WonderTrade");
+
+    private AdminUISettings adminUI = new AdminUISettings();
 
     private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
             "minecraft:stained_glass_pane", 1, (byte) 15, " ",
@@ -113,6 +116,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
         return this.selectedSpritePos;
     }
 
+    public AdminUISettings getAdminUI() {
+        return this.adminUI;
+    }
+
     @ConfigSerializable
     public static class GenerationSettings {
 
@@ -169,6 +176,37 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
         public boolean isBroadcastShinies() {
             return this.broadcastShinies;
+        }
+    }
+
+    @ConfigSerializable
+    public static class AdminUISettings {
+
+        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
+                "minecraft:stained_glass_pane", 1, (byte) 15, " ",
+                Lists.newArrayList(), Maps.newHashMap()
+        )));
+
+        private List<Integer> pagePositions = Lists.newArrayList(
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+                25, 26, 27, 28, 29
+        );
+
+        private SpriteConfig sprites = new SpriteConfig();
+
+        public AdminUISettings() {
+        }
+
+        public ConfigInterface getGuiSettings() {
+            return this.guiSettings;
+        }
+
+        public List<Integer> getPagePositions() {
+            return this.pagePositions;
+        }
+
+        public SpriteConfig getSprites() {
+            return this.sprites;
         }
     }
 }

@@ -185,4 +185,13 @@ public class WonderTradeManager {
                 .replace("%pokemon%", newPoke.getSpecies().getPokemonName()))
         );
     }
+
+    public List<Pokemon> getTradePool() {
+        return this.tradePool;
+    }
+
+    public void removePokemon(Pokemon pokemon) {
+        this.tradePool.remove(pokemon);
+        this.tradePool.add(this.mod.getConfig().getDefaultGeneratorSettings().build());
+    }
 }
