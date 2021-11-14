@@ -60,6 +60,22 @@ public class AdminViewUI {
                     })).build());
         }
 
+        UtilConfigItem.addConfigItem(pane, config.getNextPageButton(), (envyPlayer, clickType) -> {
+            if (((page + 1) * config.getPagePositions().size()) > tradePool.size()) {
+                openUI(player, 0);
+            } else {
+                openUI(player, page + 1);
+            }
+        });
+
+        UtilConfigItem.addConfigItem(pane, config.getPreviousPageButton(), (envyPlayer, clickType) -> {
+            if (page == 0) {
+                openUI(player, (tradePool.size() / config.getPagePositions().size()));
+            } else {
+                openUI(player, 0);
+            }
+        });
+
         GuiFactory.guiBuilder()
                 .addPane(pane)
                 .title(UtilChatColour.translateColourCodes('&', config.getGuiSettings().getTitle()))

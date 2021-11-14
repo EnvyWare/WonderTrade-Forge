@@ -192,6 +192,16 @@ public class WonderTradeConfig extends AbstractYamlConfig {
                 25, 26, 27, 28, 29
         );
 
+        private PositionableConfigItem nextPageButton = new PositionableConfigItem(
+                "pixelmon:trade_holder_right", 1, (byte) 0, "&aNext Page",
+                Lists.newArrayList(), 8, 5, Maps.newHashMap()
+        );
+
+        private PositionableConfigItem previousPageButton = new PositionableConfigItem(
+                "pixelmon:trade_holder_left", 1, (byte) 0, "&aPrevious Page",
+                Lists.newArrayList(), 0, 5, Maps.newHashMap()
+        );
+
         private SpriteConfig sprites = new SpriteConfig();
 
         public AdminUISettings() {
@@ -207,6 +217,14 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
         public SpriteConfig getSprites() {
             return this.sprites;
+        }
+
+        public PositionableConfigItem getNextPageButton() {
+            return this.nextPageButton;
+        }
+
+        public PositionableConfigItem getPreviousPageButton() {
+            return this.previousPageButton;
         }
     }
 }
