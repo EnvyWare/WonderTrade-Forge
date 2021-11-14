@@ -182,7 +182,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class AdminUISettings {
 
-        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
+        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one",
+                                                                                                             new ConfigItem(
                 "minecraft:stained_glass_pane", 1, (byte) 15, " ",
                 Lists.newArrayList(), Maps.newHashMap()
         )));
