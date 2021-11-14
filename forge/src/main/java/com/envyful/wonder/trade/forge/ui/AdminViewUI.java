@@ -56,6 +56,7 @@ public class AdminViewUI {
                                 '&',
                                 WonderTradeForge.getInstance().getLocale().getRemovedPokemon()
                         ));
+                        player.getParent().closeScreen();
                     })).build());
         }
 
