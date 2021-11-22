@@ -29,10 +29,11 @@ import java.sql.SQLException;
         modid = "wondertrade",
         name = "WonderTrade Forge",
         version = WonderTradeForge.VERSION,
-        acceptableRemoteVersions = "*"
+        acceptableRemoteVersions = "*",
+        updateJSON = "https://ogn.pixelmonmod.com/update/sm-wt/update.json"
 )
 public class WonderTradeForge {
-    public static final String VERSION = "1.3.0";
+    public static final String VERSION = "1.3.1";
 
     private static WonderTradeForge instance;
 
