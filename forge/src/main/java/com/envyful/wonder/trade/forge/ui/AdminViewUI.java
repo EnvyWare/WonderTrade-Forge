@@ -40,9 +40,8 @@ public class AdminViewUI {
 
         List<Pokemon> tradePool = WonderTradeForge.getInstance().getManager().getTradePool();
 
-        for (int i = (page * config.getPagePositions().size());
-             i < Math.min(tradePool.size(), ((page + 1) * config.getPagePositions().size())); i++) {
-            int pos = config.getPagePositions().get(i);
+        for (int i = (page * config.getPagePositions().size()); i < Math.min(tradePool.size(), ((page + 1) * config.getPagePositions().size())); i++) {
+            int pos = config.getPagePositions().get(i % config.getPagePositions().size());
             int posX = pos % 9;
             int posY = pos / 9;
 
