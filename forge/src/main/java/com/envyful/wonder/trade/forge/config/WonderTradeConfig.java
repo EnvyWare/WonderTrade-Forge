@@ -124,6 +124,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     public static class GenerationSettings {
 
         private Set<EnumSpecies> blockedTypes = Sets.newHashSet(EnumSpecies.Hoopa);
+        private List<String> blockedSpecs = Lists.newArrayList("hoopa");
+        private transient List<PokemonSpec> blockSpecsCache = null;
         private boolean allowLegends = true;
         private boolean allowUltraBeasts = true;
         private double shinyChance = 0.05;
@@ -132,25 +134,48 @@ public class WonderTradeConfig extends AbstractYamlConfig {
         }
 
         public Pokemon build() {
-            EnumSpecies species = this.getRandomSpecies();
-            PokemonSpec spec = new PokemonSpec();
+            Pokemon randomSpecies = this.getRandomPokemon();
 
-            spec.name = species.name;
-            spec.shiny = ThreadLocalRandom.current().nextDouble() < this.shinyChance;
-            spec.level = species.getBaseStats().getSpawnLevel() + UtilRandom.randomInteger(0,
-                    Math.max(1, species.getBaseStats().getSpawnLevelRange()));
+            while (this.isBlockedSpec(randomSpecies)) {
+                randomSpecies = this.getRandomPokemon();
+            }
 
-            return spec.create();
+            return randomSpecies;
         }
 
-        private EnumSpecies getRandomSpecies() {
+        private Pokemon getRandomPokemon() {
             EnumSpecies species = EnumSpecies.randomPoke(this.allowLegends);
 
             while (blockedTypes.contains(species) || (!this.allowUltraBeasts && species.isUltraBeast())) {
                 species = EnumSpecies.randomPoke(this.allowLegends);
             }
 
-            return species;
+            PokemonSpec spec = new PokemonSpec();
+
+            spec.name = species.name;
+            spec.shiny = ThreadLocalRandom.current().nextDouble() < this.shinyChance;
+            spec.level = species.getBaseStats().getSpawnLevel() + UtilRandom.randomInteger(0, Math.max(1, species.getBaseStats().getSpawnLevelRange()));
+            return spec.create();
+        }
+
+        private boolean isBlockedSpec(Pokemon pokemon) {
+            if (this.blockSpecsCache == null) {
+                List<PokemonSpec> blockSpecsCache = Lists.newArrayList();
+
+                for (String blockedSpec : this.blockedSpecs) {
+                    blockSpecsCache.add(PokemonSpec.from(blockedSpec));
+                }
+
+                this.blockSpecsCache = blockSpecsCache;
+            }
+
+            for (PokemonSpec pokemonSpec : this.blockSpecsCache) {
+                if (pokemonSpec.matches(pokemon)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
