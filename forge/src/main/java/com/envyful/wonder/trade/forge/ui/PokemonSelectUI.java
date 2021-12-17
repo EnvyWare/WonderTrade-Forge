@@ -2,6 +2,7 @@ package com.envyful.wonder.trade.forge.ui;
 
 import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
+import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
 import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.gui.factory.GuiFactory;
@@ -97,8 +98,7 @@ public class PokemonSelectUI {
             UtilConfigItem.addConfigItem(pane, config.getNoneSelectedItem());
         }
 
-        pane.set(7, 2, GuiFactory.displayableBuilder(ItemStack.class)
-                .itemStack(UtilConfigItem.fromConfigItem(config.getClickToConfirmButton()))
+        pane.set(7, 2, GuiFactory.displayableBuilder(UtilConfigItem.fromConfigItem(config.getClickToConfirmButton()))
                 .clickHandler((envyPlayer, clickType) -> {
                     WonderTradeAttribute att = player.getAttribute(WonderTradeForge.class);
 
@@ -106,8 +106,10 @@ public class PokemonSelectUI {
                         return;
                     }
 
-                    WonderTradeForge.getInstance().getManager()
-                            .replaceRandomPokemon((EnvyPlayer<EntityPlayerMP>) envyPlayer, all[att.getSelected()]);
+                    UtilForgeConcurrency.runSync(() -> {
+                        WonderTradeForge.getInstance().getManager()
+                                .replaceRandomPokemon((EnvyPlayer<EntityPlayerMP>) envyPlayer, all[att.getSelected()]);
+                    });
                 }).build());
 
         GuiFactory.guiBuilder()
