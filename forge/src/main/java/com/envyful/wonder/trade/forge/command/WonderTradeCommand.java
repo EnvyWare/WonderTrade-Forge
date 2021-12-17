@@ -70,7 +70,18 @@ public class WonderTradeCommand {
             return;
         }
 
+        if (!attribute.isConfirm()) {
+            player.message(UtilChatColour.translateColourCodes(
+                    '&',
+                    WonderTradeForge.getInstance().getLocale().getConfirmSell()
+                            .replace("%slot%", slot + "")
+            ));
+            attribute.setConfirm(true);
+            return;
+        }
+
         WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, party.getAll()[slot - 1]);
+        attribute.setConfirm(false);
     }
 
     private void openUI(ForgeEnvyPlayer player, WonderTradeAttribute attribute) {

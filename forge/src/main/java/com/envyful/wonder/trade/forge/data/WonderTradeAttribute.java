@@ -21,6 +21,7 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
     private long lastTrade = -1;
     private int selected = -1;
+    private boolean confirm = false;
 
     public WonderTradeAttribute(WonderTradeForge manager, EnvyPlayer<?> parent) {
         super(manager, (ForgeEnvyPlayer) parent);
@@ -49,6 +50,14 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
     public void setSelected(int selected) {
         this.selected = selected;
+    }
+
+    public boolean isConfirm() {
+        return this.confirm;
+    }
+
+    public void setConfirm(boolean confirm) {
+        this.confirm = confirm;
     }
 
     @Override

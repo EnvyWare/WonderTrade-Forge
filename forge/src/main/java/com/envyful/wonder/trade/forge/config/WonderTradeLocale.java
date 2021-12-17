@@ -23,6 +23,7 @@ public class WonderTradeLocale extends AbstractYamlConfig {
     private String tradeSuccessful = "&e&l(!) &eWonderTrade was successful! Check your party to see what you got";
     private String cooldownMessage = "&c&l(!) &cYou cannot use the WonderTrade yet. You're still on cooldown";
     private String minimumPartySize = "&c&l(!) &cYou must have more than 1 pokemon in your party!";
+    private String confirmSell = "&e&l(!) &ePlease type the command again to confirm you wish to sell the slot %slot%";
 
     private String removedPokemon = "&e&l(!) &eRemoved pokemon from the WonderTrade pool and replaced it with a new random one";
     private String commandError = "&c&l(!) &cIncorrect slot number! /wt <slot>";
@@ -65,5 +66,9 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     public String getCommandError() {
         return this.commandError;
+    }
+
+    public String getConfirmSell() {
+        return this.confirmSell;
     }
 }
