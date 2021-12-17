@@ -70,7 +70,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, party.getAll()[slot]);
+        WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, party.getAll()[slot - 1]);
     }
 
     private void openUI(ForgeEnvyPlayer player, WonderTradeAttribute attribute) {
