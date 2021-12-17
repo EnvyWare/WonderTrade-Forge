@@ -48,6 +48,7 @@ public class WonderTradeCommand {
 
         if (args.length == 0 && !WonderTradeForge.getInstance().getConfig().isDisableUI()) {
             this.openUI(player, attribute);
+            return;
         }
 
         if (args.length != 1) {
