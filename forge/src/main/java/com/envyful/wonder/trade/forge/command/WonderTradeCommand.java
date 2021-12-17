@@ -7,10 +7,12 @@ import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.reforged.pixelmon.storage.UtilPixelmonPlayer;
+import com.envyful.api.type.UtilParse;
 import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.envyful.wonder.trade.forge.ui.PokemonSelectUI;
+import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 @Command(
@@ -33,15 +35,49 @@ public class WonderTradeCommand {
         }
 
         if (!attribute.canTrade()) {
-            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
-                    WonderTradeForge.getInstance().getLocale().getCooldownMessage()
-                            .replace("%cooldown%", attribute.getCooldownFormatted()))));
+            player.message(UtilChatColour.translateColourCodes(
+                    '&',
+                    UtilPlaceholder.replaceIdentifiers(
+                            sender,
+                            WonderTradeForge.getInstance().getLocale().getCooldownMessage()
+                                    .replace("%cooldown%", attribute.getCooldownFormatted())
+                    )
+            ));
             return;
         }
 
+        if (args.length == 0 && !WonderTradeForge.getInstance().getConfig().isDisableUI()) {
+            this.openUI(player, attribute);
+        }
+
+        if (args.length != 1) {
+            player.message(UtilChatColour.translateColourCodes('&', WonderTradeForge.getInstance().getLocale().getCommandError()));
+            return;
+        }
+
+        PlayerPartyStorage party = UtilPixelmonPlayer.getParty(sender);
+
+        if (party.getTeam().size() <= 1) {
+            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender, WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
+            return;
+        }
+
+        int slot = UtilParse.parseInteger(args[0]).orElse(-1);
+
+        if (slot < 1 || slot > 6) {
+            player.message(UtilChatColour.translateColourCodes('&', WonderTradeForge.getInstance().getLocale().getCommandError()));
+            return;
+        }
+
+        WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, party.getAll()[slot]);
+    }
+
+    private void openUI(ForgeEnvyPlayer player, WonderTradeAttribute attribute) {
+        EntityPlayerMP sender = player.getParent();
+
         if (UtilPixelmonPlayer.getParty(sender).getTeam().size() <= 1) {
             player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
-                    WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
+                                                                                                       WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
             return;
         }
 

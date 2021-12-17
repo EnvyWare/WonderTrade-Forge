@@ -57,6 +57,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private int numberInPool = 30;
     private int selectedSpritePos = 23;
     private boolean persistentPool = true;
+    private boolean disableUI = false;
 
     public WonderTradeConfig() {}
 
@@ -118,6 +119,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public AdminUISettings getAdminUI() {
         return this.adminUI;
+    }
+
+    public boolean isDisableUI() {
+        return this.disableUI;
     }
 
     @ConfigSerializable

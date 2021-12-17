@@ -25,6 +25,7 @@ public class WonderTradeLocale extends AbstractYamlConfig {
     private String minimumPartySize = "&c&l(!) &cYou must have more than 1 pokemon in your party!";
 
     private String removedPokemon = "&e&l(!) &eRemoved pokemon from the WonderTrade pool and replaced it with a new random one";
+    private String commandError = "&c&l(!) &cIncorrect slot number! /wt <slot>";
 
     public WonderTradeLocale() {
         super();
@@ -60,5 +61,9 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     public String getRemovedPokemon() {
         return this.removedPokemon;
+    }
+
+    public String getCommandError() {
+        return this.commandError;
     }
 }
