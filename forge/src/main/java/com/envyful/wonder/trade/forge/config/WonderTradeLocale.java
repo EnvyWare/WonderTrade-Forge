@@ -20,7 +20,7 @@ public class WonderTradeLocale extends AbstractYamlConfig {
     private String shinyReplacement = "Shiny ";
     private String ultraBeastReplacement = "UltraBeast ";
     private String legendReplacement = "Legend ";
-    private String tradeSuccessful = "&e&l(!) &eWonderTrade was successful! Check your party to see what you got";
+    private String tradeSuccessful = "&e&l(!) &eWonderTrade was successful! Check your party to see what you got &7(&b%species%&7)";
     private String cooldownMessage = "&c&l(!) &cYou cannot use the WonderTrade yet. You're still on cooldown";
     private String minimumPartySize = "&c&l(!) &cYou must have more than 1 pokemon in your party!";
     private String confirmSell = "&e&l(!) &ePlease type the command again to confirm you wish to sell the slot %slot%";
