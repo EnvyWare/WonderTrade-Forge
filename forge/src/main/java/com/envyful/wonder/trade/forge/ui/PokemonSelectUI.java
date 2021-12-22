@@ -58,7 +58,7 @@ public class PokemonSelectUI {
                 pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(UtilConfigItem.fromConfigItem(config.getLevelTooLowItem()))
                         .build());
-            } else if (pokemon.hasSpecFlag("untradeable")) {
+            } else if (pokemon.hasSpecFlag("untradeable") || pokemon.isInRanch()) {
                 pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
                         .itemStack(UtilConfigItem.fromConfigItem(config.getUntradeableItem()))
                         .build());
