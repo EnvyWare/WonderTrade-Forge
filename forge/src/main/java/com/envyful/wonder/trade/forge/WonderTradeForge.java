@@ -33,7 +33,7 @@ import java.sql.SQLException;
         updateJSON = "https://ogn.pixelmonmod.com/update/sm-wt/update.json"
 )
 public class WonderTradeForge {
-    public static final String VERSION = "5.2.1";
+    public static final String VERSION = "5.2.2";
 
     private static WonderTradeForge instance;
 
