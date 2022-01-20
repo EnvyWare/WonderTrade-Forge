@@ -12,6 +12,7 @@ import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.envyful.wonder.trade.forge.ui.PokemonSelectUI;
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -80,7 +81,18 @@ public class WonderTradeCommand {
             return;
         }
 
-        WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, party.getAll()[slot - 1]);
+        Pokemon pokemon = party.getAll()[slot - 1];
+
+        if (pokemon.hasSpecFlag("untradeable") || pokemon.isInRanch()) {
+            player.message(UtilChatColour.translateColourCodes(
+                    '&',
+                    WonderTradeForge.getInstance().getLocale().getUntradeablePokemon()
+                            .replace("%slot%", slot + "")
+            ));
+            return;
+        }
+
+        WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, pokemon);
         attribute.setConfirm(false);
     }
 
