@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForge> {
@@ -25,6 +26,10 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
     public WonderTradeAttribute(WonderTradeForge manager, EnvyPlayer<?> parent) {
         super(manager, (ForgeEnvyPlayer) parent);
+    }
+
+    public WonderTradeAttribute(UUID uuid) {
+        super(uuid);
     }
 
     public boolean canTrade() {
