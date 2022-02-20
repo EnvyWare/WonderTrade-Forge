@@ -106,9 +106,11 @@ public class PokemonSelectUI {
                         return;
                     }
 
+                    Pokemon pokemon = all[att.getSelected()];
+
                     UtilForgeConcurrency.runSync(() -> {
                         WonderTradeForge.getInstance().getManager()
-                                .replaceRandomPokemon((EnvyPlayer<EntityPlayerMP>) envyPlayer, all[att.getSelected()]);
+                                .replaceRandomPokemon((EnvyPlayer<EntityPlayerMP>) envyPlayer, pokemon);
                     });
                 }).build());
 
