@@ -15,10 +15,10 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-forgeVersion = "1.12.2"
+forgeVersion = "1.16.5"
 
 minecraft {
-    mappings channel: 'snapshot', version: '20180814-1.12'
+    mappings channel: 'official', version: '1.16.5'
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -31,22 +31,31 @@ repositories {
 
     maven { url 'https://jitpack.io' }
 
-    flatDir {
-        dirs '../Libraries/'
+    ivy {
+        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
+        metadataSources {
+            artifact()
+        }
+        patternLayout {
+            artifact('[revision]/[artifact].[ext]')
+        }
     }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
 
-    compileOnly ('com.pixelmonmod.pixelmon:Pixelmon-1.12.2-8.2.0-server:1.0')
+    implementation 'pixelmon:Pixelmon-1.16.5-9.0.5-server:9.0.5'
     compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.3'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
-
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '1.9.6'
-    shadow group: 'com.github.EnvyWare.API', name: 'forge', version: '1.9.6'
-    shadow group: 'com.github.EnvyWare.API', name: 'reforged', version: '1.9.6'
+    shadow (group: 'com.github.EnvyWare.API', name: 'commons', version: '2.7.5')
+    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.7.5') {
+        transitive = false
+    }
+    shadow (group: 'com.github.EnvyWare.API', name: 'reforged16', version: '2.7.5') {
+        transitive = false
+    }
 }
 
 shadowJar {
@@ -67,9 +76,7 @@ shadowJar {
 }
 
 reobf {
-    shadowJar {
-        classpath = sourceSets.main.compileClasspath
-    }
+    shadowJar {}
 }
 
 jar.finalizedBy('reobfJar')
