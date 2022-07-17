@@ -31,7 +31,7 @@ public class ResetCooldownCommand {
             return;
         }
 
-        EnvyPlayer<ServerPlayerEntity> target = WonderTradeForge.getInstance().getPlayerManager().getOnlinePlayer(args[0]);
+        EnvyPlayer<ServerPlayerEntity> target = WonderTradeForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(args[0]);
 
         if (target == null) {
             sender.sendMessage(UtilChatColour.colour("&c&l(!) &cCannot find that player"), Util.NIL_UUID);
