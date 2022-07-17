@@ -31,15 +31,21 @@ repositories {
 
     maven { url 'https://jitpack.io' }
 
-    flatDir {
-        dirs '../Libraries/'
+    ivy {
+        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
+        metadataSources {
+            artifact()
+        }
+        patternLayout {
+            artifact('[revision]/[artifact].[ext]')
+        }
     }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
 
-    compileOnly ('com.pixelmonmod.pixelmon:Pixelmon-1.12.2-8.2.0-server:1.0')
+    implementation 'pixelmon:Pixelmon-1.12.2-8.4.2-server:8.4.2'
     compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.3'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
