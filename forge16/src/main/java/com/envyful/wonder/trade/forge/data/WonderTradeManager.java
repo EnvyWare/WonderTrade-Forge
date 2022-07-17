@@ -11,15 +11,18 @@ import com.envyful.wonder.trade.forge.data.event.WonderTradeEvent;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.api.pokemon.PokemonFactory;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.io.*;
@@ -108,6 +111,11 @@ public class WonderTradeManager {
             }
 
             CompoundNBT nbt = JsonToNBT.parseTag(builder.toString());
+            ListNBT list = nbt.getList("trade_pool", Constants.NBT.TAG_COMPOUND);
+            for (INBT inbt : list) {
+                Pokemon pokemon = PokemonFactory.create((CompoundNBT)inbt);
+                this.tradePool.add(pokemon);
+            }
         } catch (CommandSyntaxException | IOException e) {
             e.printStackTrace();
         }

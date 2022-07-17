@@ -1,8 +1,8 @@
 package com.envyful.wonder.trade.forge.ui;
 
-import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
+import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.gui.factory.GuiFactory;
@@ -31,9 +31,7 @@ public class PokemonSelectUI {
                 .topLeftY(0)
                 .build();
 
-        for (ConfigItem fillerItem : config.getGuiSettings().getFillerItems()) {
-            pane.add(GuiFactory.displayable(UtilConfigItem.fromConfigItem(fillerItem)));
-        }
+        UtilConfigInterface.fillBackground(pane, config.getGuiSettings());
 
         PlayerPartyStorage party = StorageProxy.getParty(player.getParent());
         Pokemon[] all = party.getAll();
@@ -117,7 +115,6 @@ public class PokemonSelectUI {
                 .title(UtilChatColour.translateColourCodes('&', config.getGuiSettings().getTitle()))
                 .height(config.getGuiSettings().getHeight())
                 .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
-                .setCloseConsumer(envyPlayer -> {})
                 .build()
                 .open(player);
     }
