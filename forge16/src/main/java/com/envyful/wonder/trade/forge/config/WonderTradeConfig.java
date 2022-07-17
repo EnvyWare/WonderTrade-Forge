@@ -32,22 +32,17 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private AdminUISettings adminUI = new AdminUISettings();
 
     private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
-            "minecraft:stained_glass_pane", 1, (byte) 15, " ",
-            Lists.newArrayList(), Maps.newHashMap()
+            "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
     )));
 
-    private ConfigItem levelTooLowItem = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 14,
-                                                        "&c&lLevel too low", Lists.newArrayList(), Maps.newHashMap());
+    private ConfigItem levelTooLowItem = new ConfigItem("minecraft:red_stained_glass_pane", 1, "&c&lLevel too low", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap());
 
-    private ConfigItem untradeableItem = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 14,
-                                                        "&c&lUntradeable", Lists.newArrayList(), Maps.newHashMap());
+    private ConfigItem untradeableItem = new ConfigItem("minecraft:red_stained_glass_pane", 1, "&c&lUntradeable", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap());
 
-    private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 5,
-                                                        "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap());
+    private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:lime_stained_glass_pane", 1, "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap());
 
-    private PositionableConfigItem noneSelectedItem = new PositionableConfigItem("minecraft:barrier", 1, (byte) 0,
-                                                                     "&c&lNone selected", Lists.newArrayList(),
-                                                                                 5, 2, Maps.newHashMap());
+    private PositionableConfigItem noneSelectedItem = new PositionableConfigItem("minecraft:barrier", 1,
+            "&c&lNone selected", Lists.newArrayList(), 5, 2, Maps.newHashMap());
 
     private SpriteConfig spriteConfig = new SpriteConfig();
 
@@ -203,10 +198,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class AdminUISettings {
 
-        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one",
-                                                                                                             new ConfigItem(
-                "minecraft:stained_glass_pane", 1, (byte) 15, " ",
-                Lists.newArrayList(), Maps.newHashMap()
+        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one", new ConfigItem(
+                "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
         )));
 
         private List<Integer> pagePositions = Lists.newArrayList(
