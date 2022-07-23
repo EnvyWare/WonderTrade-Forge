@@ -16,7 +16,6 @@ import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.PlayerPartyStorage;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public class PokemonSelectUI {
@@ -42,26 +41,20 @@ public class PokemonSelectUI {
             int xPos = 1 + (i % 2);
 
             if (pokemon == null) {
-                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(new ItemBuilder()
-                                .type(Items.BARRIER)
-                                .name(UtilChatColour.translateColourCodes('&', "&c&l ")).build())
-                        .build());
+                pane.set(xPos, yPos, GuiFactory.displayable(new ItemBuilder()
+                        .type(Items.BARRIER)
+                        .name(UtilChatColour.colour("&c&l ")).build())
+                );
                 continue;
             }
 
             if (pokemon.getPokemonLevel() < config.getMinRequiredLevel()) {
-                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(UtilConfigItem.fromConfigItem(config.getLevelTooLowItem()))
-                        .build());
+                pane.set(xPos, yPos, GuiFactory.displayable(UtilConfigItem.fromConfigItem(config.getLevelTooLowItem())));
             } else if (pokemon.isUntradeable() || pokemon.isInRanch()) {
-                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(UtilConfigItem.fromConfigItem(config.getUntradeableItem()))
-                        .build());
+                pane.set(xPos, yPos, GuiFactory.displayable(UtilConfigItem.fromConfigItem(config.getUntradeableItem())));
             } else {
                 int finalI = i;
-                pane.set(xPos, yPos, GuiFactory.displayableBuilder(ItemStack.class)
-                        .itemStack(UtilSprite.getPokemonElement(pokemon, config.getSpriteConfig()))
+                pane.set(xPos, yPos, GuiFactory.displayableBuilder(UtilSprite.getPokemonElement(pokemon, config.getSpriteConfig()))
                         .clickHandler((envyPlayer, clickType) -> {
                             WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
 

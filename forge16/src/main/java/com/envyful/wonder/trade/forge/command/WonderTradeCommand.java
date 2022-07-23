@@ -103,7 +103,7 @@ public class WonderTradeCommand {
         ServerPlayerEntity sender = player.getParent();
 
         if (StorageProxy.getParty(sender).getTeam().size() <= 1) {
-            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender,
+            player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender,
                     WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
             return;
         }

@@ -48,8 +48,7 @@ public class AdminViewUI {
                     .clickHandler((envyPlayer, clickType) -> {
                         WonderTradeForge.getInstance().getManager().removePokemon(poke);
                         StorageProxy.getParty(player.getParent()).add(poke);
-                        player.message(UtilChatColour.translateColourCodes(
-                                '&',
+                        player.message(UtilChatColour.colour(
                                 WonderTradeForge.getInstance().getLocale().getRemovedPokemon()
                         ));
                         openUI(player, page);
