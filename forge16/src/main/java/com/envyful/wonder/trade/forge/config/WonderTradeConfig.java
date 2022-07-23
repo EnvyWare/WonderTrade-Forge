@@ -15,6 +15,7 @@ import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonBuilder;
+import com.pixelmonmod.pixelmon.api.pokemon.stats.IVStore;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
@@ -146,6 +147,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
                     .randomSpecies(!this.allowLegends, !this.allowLegends, !this.allowUltraBeasts)
                     .shiny(ThreadLocalRandom.current().nextDouble() < this.shinyChance)
                     .level(UtilRandom.randomInteger(1, 50))
+                    .ivs(IVStore.createRandomNewIVs().getArray())
                     .build();
         }
 
