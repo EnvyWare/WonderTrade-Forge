@@ -1,8 +1,7 @@
 package com.envyful.wonder.trade.forge.ui;
 
-import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
-import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
+import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
@@ -13,7 +12,6 @@ import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
@@ -33,10 +31,7 @@ public class AdminViewUI {
                 .topLeftY(0)
                 .build();
 
-        for (ConfigItem fillerItem : config.getGuiSettings().getFillerItems()) {
-            pane.add(GuiFactory.displayableBuilder(ItemStack.class)
-                             .itemStack(UtilConfigItem.fromConfigItem(fillerItem)).build());
-        }
+        UtilConfigInterface.fillBackground(pane, config.getGuiSettings());
 
         List<Pokemon> tradePool = WonderTradeForge.getInstance().getManager().getTradePool();
 
@@ -48,7 +43,9 @@ public class AdminViewUI {
             Pokemon poke = tradePool.get(i);
 
             pane.set(posX, posY, GuiFactory.displayableBuilder(UtilSprite.getPokemonElement(poke, config.getSprites()))
-                    .clickHandler((envyPlayer, clickType) -> UtilForgeConcurrency.runSync(() -> {
+                    .asyncClick(false)
+                    .delayTicks(1)
+                    .clickHandler((envyPlayer, clickType) -> {
                         WonderTradeForge.getInstance().getManager().removePokemon(poke);
                         StorageProxy.getParty(player.getParent()).add(poke);
                         player.message(UtilChatColour.translateColourCodes(
@@ -56,7 +53,7 @@ public class AdminViewUI {
                                 WonderTradeForge.getInstance().getLocale().getRemovedPokemon()
                         ));
                         openUI(player, page);
-                    })).build());
+                    }).build());
         }
 
         UtilConfigItem.addConfigItem(pane, config.getNextPageButton(), (envyPlayer, clickType) -> {
@@ -77,10 +74,9 @@ public class AdminViewUI {
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
-                .title(UtilChatColour.translateColourCodes('&', config.getGuiSettings().getTitle()))
+                .title(UtilChatColour.colour(config.getGuiSettings().getTitle()))
                 .height(config.getGuiSettings().getHeight())
                 .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
-                .setCloseConsumer(envyPlayer -> {})
                 .build()
                 .open(player);
     }

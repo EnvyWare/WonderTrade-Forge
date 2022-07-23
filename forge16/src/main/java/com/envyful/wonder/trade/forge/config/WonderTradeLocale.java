@@ -28,6 +28,7 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     private String removedPokemon = "&e&l(!) &eRemoved pokemon from the WonderTrade pool and replaced it with a new random one";
     private String commandError = "&c&l(!) &cIncorrect slot number! /wt <slot>";
+    private String levelTooLow = "&c&l(!) &cLevel too low";
 
     public WonderTradeLocale() {
         super();
@@ -75,5 +76,9 @@ public class WonderTradeLocale extends AbstractYamlConfig {
 
     public String getUntradeablePokemon() {
         return this.untradeablePokemon;
+    }
+
+    public String getLevelTooLow() {
+        return this.levelTooLow;
     }
 }

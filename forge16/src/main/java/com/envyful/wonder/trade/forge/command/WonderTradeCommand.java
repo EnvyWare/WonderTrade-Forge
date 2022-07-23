@@ -37,8 +37,7 @@ public class WonderTradeCommand {
         }
 
         if (!attribute.canTrade()) {
-            player.message(UtilChatColour.translateColourCodes(
-                    '&',
+            player.message(UtilChatColour.colour(
                     UtilPlaceholder.replaceIdentifiers(
                             sender,
                             WonderTradeForge.getInstance().getLocale().getCooldownMessage()
@@ -54,27 +53,26 @@ public class WonderTradeCommand {
         }
 
         if (args.length != 1) {
-            player.message(UtilChatColour.translateColourCodes('&', WonderTradeForge.getInstance().getLocale().getCommandError()));
+            player.message(UtilChatColour.colour(WonderTradeForge.getInstance().getLocale().getCommandError()));
             return;
         }
 
         PlayerPartyStorage party = StorageProxy.getParty(sender);
 
         if (party.getTeam().size() <= 1) {
-            player.message(UtilChatColour.translateColourCodes('&', UtilPlaceholder.replaceIdentifiers(sender, WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
+            player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender, WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
             return;
         }
 
         int slot = UtilParse.parseInteger(args[0]).orElse(-1);
 
         if (slot < 1 || slot > 6) {
-            player.message(UtilChatColour.translateColourCodes('&', WonderTradeForge.getInstance().getLocale().getCommandError()));
+            player.message(UtilChatColour.colour(WonderTradeForge.getInstance().getLocale().getCommandError()));
             return;
         }
 
         if (!attribute.isConfirm()) {
-            player.message(UtilChatColour.translateColourCodes(
-                    '&',
+            player.message(UtilChatColour.colour(
                     WonderTradeForge.getInstance().getLocale().getConfirmSell()
                             .replace("%slot%", slot + "")
             ));
@@ -85,11 +83,15 @@ public class WonderTradeCommand {
         Pokemon pokemon = party.getAll()[slot - 1];
 
         if (pokemon.hasFlag(Flags.UNTRADEABLE) || pokemon.isInRanch()) {
-            player.message(UtilChatColour.translateColourCodes(
-                    '&',
+            player.message(UtilChatColour.colour(
                     WonderTradeForge.getInstance().getLocale().getUntradeablePokemon()
                             .replace("%slot%", slot + "")
             ));
+            return;
+        }
+
+        if (pokemon.getPokemonLevel() <= WonderTradeForge.getInstance().getConfig().getMinRequiredLevel()) {
+            player.message(UtilChatColour.colour(WonderTradeForge.getInstance().getLocale().getLevelTooLow()));
             return;
         }
 
