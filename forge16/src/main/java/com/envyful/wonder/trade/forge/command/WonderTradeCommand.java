@@ -82,7 +82,7 @@ public class WonderTradeCommand {
 
         Pokemon pokemon = party.getAll()[slot - 1];
 
-        if (pokemon.hasFlag(Flags.UNTRADEABLE) || pokemon.isInRanch()) {
+        if (pokemon.isUntradeable()) {
             player.message(UtilChatColour.colour(
                     WonderTradeForge.getInstance().getLocale().getUntradeablePokemon()
                             .replace("%slot%", slot + "")

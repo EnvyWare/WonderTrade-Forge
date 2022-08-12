@@ -50,7 +50,7 @@ public class PokemonSelectUI {
 
             if (pokemon.getPokemonLevel() < config.getMinRequiredLevel()) {
                 pane.set(xPos, yPos, GuiFactory.displayable(UtilConfigItem.fromConfigItem(config.getLevelTooLowItem())));
-            } else if (pokemon.isUntradeable() || pokemon.isInRanch()) {
+            } else if (pokemon.isUntradeable()) {
                 pane.set(xPos, yPos, GuiFactory.displayable(UtilConfigItem.fromConfigItem(config.getUntradeableItem())));
             } else {
                 int finalI = i;
