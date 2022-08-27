@@ -23,7 +23,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
                 "wt"
         }
 )
-@SubCommands({ReloadCommand.class, ResetCooldownCommand.class, ReGeneratePoolCommand.class, AdminCommand.class})
+@SubCommands({ReloadCommand.class, ResetCooldownCommand.class, ReGeneratePoolCommand.class, AdminCommand.class, ListCommand.class})
 public class WonderTradeCommand {
 
     @CommandProcessor

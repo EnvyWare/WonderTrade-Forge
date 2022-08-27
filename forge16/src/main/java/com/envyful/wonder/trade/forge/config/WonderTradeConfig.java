@@ -31,6 +31,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             3306, "admin", "password", "WonderTrade");
 
     private AdminUISettings adminUI = new AdminUISettings();
+    private ListUI listUI = new ListUI();
 
     private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
             "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
@@ -118,6 +119,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public boolean isDisableUI() {
         return this.disableUI;
+    }
+
+    public ListUI getListUI() {
+        return this.listUI;
     }
 
     @ConfigSerializable
@@ -244,4 +249,60 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             return this.previousPageButton;
         }
     }
-}
+
+    @ConfigSerializable
+    public static class ListUI {
+
+        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one", new ConfigItem(
+                "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
+        )));
+
+        private List<Integer> pagePositions = Lists.newArrayList(
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+                25, 26, 27, 28, 29
+        );
+
+        private ExtendedConfigItem nextPageButton = new ExtendedConfigItem(
+                "pixelmon:trade_holder_right", 1, (byte) 0, "&aNext Page",
+                Lists.newArrayList(), 8, 5, Maps.newHashMap()
+        );
+
+        private ExtendedConfigItem previousPageButton = new ExtendedConfigItem(
+                "pixelmon:trade_holder_left", 1, (byte) 0, "&aPrevious Page",
+                Lists.newArrayList(), 0, 5, Maps.newHashMap()
+        );
+
+        private ExtendedConfigItem selectUIButton = new ExtendedConfigItem(
+                "minecraft:clock", 1, (byte) 0, "&aWT a Poke",
+                Lists.newArrayList(), 5, 5, Maps.newHashMap()
+        );
+
+        private SpriteConfig sprites = new SpriteConfig();
+
+        public ListUI() {
+        }
+
+        public ConfigInterface getGuiSettings() {
+            return this.guiSettings;
+        }
+
+        public List<Integer> getPagePositions() {
+            return this.pagePositions;
+        }
+
+        public SpriteConfig getSprites() {
+            return this.sprites;
+        }
+
+        public ExtendedConfigItem getNextPageButton() {
+            return this.nextPageButton;
+        }
+
+        public ExtendedConfigItem getPreviousPageButton() {
+            return this.previousPageButton;
+        }
+
+        public ExtendedConfigItem getSelectUIButton() {
+            return this.selectUIButton;
+        }
+    }}
