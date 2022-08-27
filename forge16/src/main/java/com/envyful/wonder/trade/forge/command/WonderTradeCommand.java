@@ -11,7 +11,6 @@ import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.envyful.wonder.trade.forge.ui.PokemonSelectUI;
-import com.pixelmonmod.api.Flags;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.PlayerPartyStorage;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
@@ -95,6 +94,7 @@ public class WonderTradeCommand {
             return;
         }
 
+        StorageProxy.getParty(sender).retrieveAll();
         WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, pokemon);
         attribute.setConfirm(false);
     }
@@ -108,6 +108,7 @@ public class WonderTradeCommand {
             return;
         }
 
+        StorageProxy.getParty(sender).retrieveAll();
         PokemonSelectUI.openUI(WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender));
     }
 }
