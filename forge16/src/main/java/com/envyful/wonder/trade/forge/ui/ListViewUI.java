@@ -61,10 +61,12 @@ public class ListViewUI {
             }
         });
 
-
         UtilConfigItem.builder()
                         .asyncClick(false)
-                        .combinedClickHandler(config.getSelectUIButton(), (envyPlayer, clickType) -> PokemonSelectUI.openUI(player))
+                        .combinedClickHandler(config.getSelectUIButton(), (envyPlayer, clickType) -> {
+                            player.getParent().closeContainer();
+                            player.executeCommand("/wt");
+                        })
                         .singleClick()
                         .extendedConfigItem((ForgeEnvyPlayer) player, pane, config.getSelectUIButton());
 
