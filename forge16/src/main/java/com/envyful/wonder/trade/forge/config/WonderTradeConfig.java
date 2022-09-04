@@ -7,6 +7,7 @@ import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.math.UtilRandom;
+import com.envyful.api.player.SaveMode;
 import com.envyful.api.reforged.pixelmon.config.SpriteConfig;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -25,6 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @ConfigSerializable
 public class WonderTradeConfig extends AbstractYamlConfig {
 
+    private SaveMode saveMode = SaveMode.JSON;
     private BroadcastSettings broadcastSettings = new BroadcastSettings();
     private GenerationSettings defaultGeneratorSettings = new GenerationSettings();
     private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails("WonderTrade", "0.0.0.0",
@@ -56,6 +58,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private boolean disableUI = false;
 
     public WonderTradeConfig() {}
+
+    public SaveMode getSaveMode() {
+        return this.saveMode;
+    }
 
     public ExtendedConfigItem getNoneSelectedItem() {
         return this.noneSelectedItem;

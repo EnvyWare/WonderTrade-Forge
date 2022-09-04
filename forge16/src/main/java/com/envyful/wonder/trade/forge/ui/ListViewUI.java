@@ -64,7 +64,6 @@ public class ListViewUI {
         UtilConfigItem.builder()
                         .asyncClick(false)
                         .combinedClickHandler(config.getSelectUIButton(), (envyPlayer, clickType) -> {
-                            player.getParent().closeContainer();
                             player.executeCommand("/wt");
                         })
                         .singleClick()

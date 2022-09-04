@@ -8,6 +8,8 @@ import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
+import com.envyful.api.player.SaveMode;
+import com.envyful.api.player.save.impl.JsonSaveManager;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
 import com.envyful.wonder.trade.forge.config.WonderTradeLocale;
@@ -49,19 +51,26 @@ public class WonderTradeForge {
     public void onServerStarting(FMLServerAboutToStartEvent event) {
         GuiFactory.setPlatformFactory(new ForgeGuiFactory());
 
-        this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
         this.loadConfig();
 
-        UtilConcurrency.runAsync(() -> {
-            this.database = new SimpleHikariDatabase(this.config.getDatabaseDetails());
+        if (this.config.getSaveMode() == SaveMode.JSON) {
+            this.playerManager.setSaveManager(new JsonSaveManager<>());
+        }
 
-            try (Connection connection = this.database.getConnection();
-                 PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.CREATE_TABLE)) {
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
+
+        if (this.config.getSaveMode() == SaveMode.MYSQL) {
+            UtilConcurrency.runAsync(() -> {
+                this.database = new SimpleHikariDatabase(this.config.getDatabaseDetails());
+
+                try (Connection connection = this.database.getConnection();
+                     PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.CREATE_TABLE)) {
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     public void loadConfig() {

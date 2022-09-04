@@ -3,6 +3,7 @@ package com.envyful.wonder.trade.forge.data;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
 import com.envyful.api.player.EnvyPlayer;
+import com.envyful.api.player.save.attribute.DataDirectory;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 
@@ -14,6 +15,7 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@DataDirectory("config/players/WonderTrade/")
 public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForge> {
 
     private static final long SECONDS_PER_MINUTE = 60;
@@ -67,6 +69,10 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
     @Override
     public void load() {
+        if (this.manager.getDatabase() == null) {
+            return;
+        }
+
         try (Connection connection = this.manager.getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.LOAD_USER)) {
             preparedStatement.setString(1, this.parent.getUuid().toString());
@@ -85,6 +91,10 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
     @Override
     public void save() {
+        if (this.manager.getDatabase() == null) {
+            return;
+        }
+
         try (Connection connection = this.manager.getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.ADD_AND_UPDATE_USER)) {
             preparedStatement.setString(1, this.parent.getUuid().toString());
