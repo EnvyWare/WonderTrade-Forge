@@ -6,9 +6,11 @@ import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
+import com.envyful.api.discord.DiscordWebHook;
 import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.reforged.pixelmon.config.SpriteConfig;
+import com.envyful.wonder.trade.forge.data.event.WonderTradeEvent;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -19,7 +21,12 @@ import com.pixelmonmod.pixelmon.api.pokemon.PokemonBuilder;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.IVStore;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @ConfigPath("config/WonderTradeForge/config.yml")
@@ -47,6 +54,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     private ExtendedConfigItem noneSelectedItem = new ExtendedConfigItem("minecraft:barrier", 1,
             "&c&lNone selected", Lists.newArrayList(), 5, 2, Maps.newHashMap());
+
+    private Map<String, WebHookTriggers> webHooks = ImmutableMap.of(
+            "one", new WebHookTriggers("config/WonderTradeForge/leg_web_hook.json", "legendary")
+    );
 
     private SpriteConfig spriteConfig = new SpriteConfig();
 
@@ -129,6 +140,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public ListUI getListUI() {
         return this.listUI;
+    }
+
+    public List<WebHookTriggers> getTriggers() {
+        return Lists.newArrayList(this.webHooks.values());
     }
 
     @ConfigSerializable
@@ -311,4 +326,48 @@ public class WonderTradeConfig extends AbstractYamlConfig {
         public ExtendedConfigItem getSelectUIButton() {
             return this.selectUIButton;
         }
-    }}
+    }
+
+    @ConfigSerializable
+    public static class WebHookTriggers {
+
+        private String webHookPath;
+        private String triggerSpec;
+        private transient PokemonSpecification spec = null;
+        private transient String webHookJson = null;
+
+        public WebHookTriggers(String webHookPath, String triggerSpec) {
+            this.webHookPath = webHookPath;
+            this.triggerSpec = triggerSpec;
+        }
+
+        public WebHookTriggers() {
+        }
+
+        public String getWebHookPath() {
+            return this.webHookPath;
+        }
+
+        public DiscordWebHook getWebHook(WonderTradeEvent event) {
+            if (this.webHookJson == null) {
+                try {
+                    this.webHookJson = String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webHookPath), StandardCharsets.UTF_8));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return DiscordWebHook.fromJson(this.webHookJson.replace("%received%", event.getReceived().getDisplayName())
+                    .replace("%given%", event.getGiven().getDisplayName())
+                    .replace("%player%", event.getPlayer().getName()));
+        }
+
+        public PokemonSpecification getSpec() {
+            if (this.spec == null) {
+                this.spec = PokemonSpecificationProxy.create(this.triggerSpec);
+            }
+
+            return this.spec;
+        }
+    }
+}

@@ -16,6 +16,7 @@ import com.envyful.wonder.trade.forge.config.WonderTradeLocale;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.envyful.wonder.trade.forge.data.WonderTradeManager;
+import com.envyful.wonder.trade.forge.listener.WonderTradeListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -58,6 +59,7 @@ public class WonderTradeForge {
         }
 
         this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
+        MinecraftForge.EVENT_BUS.register(new WonderTradeListener());
 
         if (this.config.getSaveMode() == SaveMode.MYSQL) {
             UtilConcurrency.runAsync(() -> {
