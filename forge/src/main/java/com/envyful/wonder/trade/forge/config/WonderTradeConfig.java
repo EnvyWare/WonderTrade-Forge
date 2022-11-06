@@ -3,7 +3,7 @@ package com.envyful.wonder.trade.forge.config;
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.type.ConfigInterface;
 import com.envyful.api.config.type.ConfigItem;
-import com.envyful.api.config.type.PositionableConfigItem;
+import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.math.UtilRandom;
@@ -46,7 +46,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:stained_glass_pane", 1, (byte) 5,
                                                         "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap());
 
-    private PositionableConfigItem noneSelectedItem = new PositionableConfigItem("minecraft:barrier", 1, (byte) 0,
+    private ExtendedConfigItem noneSelectedItem = new ExtendedConfigItem("minecraft:barrier", 1, (byte) 0,
                                                                      "&c&lNone selected", Lists.newArrayList(),
                                                                                  5, 2, Maps.newHashMap());
 
@@ -61,7 +61,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public WonderTradeConfig() {}
 
-    public PositionableConfigItem getNoneSelectedItem() {
+    public ExtendedConfigItem getNoneSelectedItem() {
         return this.noneSelectedItem;
     }
 
@@ -223,12 +223,12 @@ public class WonderTradeConfig extends AbstractYamlConfig {
                 25, 26, 27, 28, 29
         );
 
-        private PositionableConfigItem nextPageButton = new PositionableConfigItem(
+        private ExtendedConfigItem nextPageButton = new ExtendedConfigItem(
                 "pixelmon:trade_holder_right", 1, (byte) 0, "&aNext Page",
                 Lists.newArrayList(), 8, 5, Maps.newHashMap()
         );
 
-        private PositionableConfigItem previousPageButton = new PositionableConfigItem(
+        private ExtendedConfigItem previousPageButton = new ExtendedConfigItem(
                 "pixelmon:trade_holder_left", 1, (byte) 0, "&aPrevious Page",
                 Lists.newArrayList(), 0, 5, Maps.newHashMap()
         );
@@ -250,11 +250,11 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             return this.sprites;
         }
 
-        public PositionableConfigItem getNextPageButton() {
+        public ExtendedConfigItem getNextPageButton() {
             return this.nextPageButton;
         }
 
-        public PositionableConfigItem getPreviousPageButton() {
+        public ExtendedConfigItem getPreviousPageButton() {
             return this.previousPageButton;
         }
     }
