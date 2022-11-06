@@ -16,6 +16,11 @@ public class WonderTradeListener {
         for (WonderTradeConfig.WebHookTriggers trigger : WonderTradeForge.getInstance().getConfig().getTriggers()) {
             if (trigger.getSpec().matches(event.getGiven())) {
                 DiscordWebHook webHook = trigger.getWebHook(event);
+
+                if (webHook == null) {
+                    continue;
+                }
+
                 UtilConcurrency.runAsync(() -> {
                     try {
                         webHook.execute();
