@@ -39,7 +39,7 @@ public class WonderTradeCommand {
             player.message(UtilChatColour.colour(
                     UtilPlaceholder.replaceIdentifiers(
                             sender,
-                            WonderTradeForge.getInstance().getLocale().getCooldownMessage()
+                            WonderTradeForge.getLocale().getCooldownMessage()
                                     .replace("%cooldown%", attribute.getCooldownFormatted())
                     )
             ));
@@ -47,32 +47,32 @@ public class WonderTradeCommand {
         }
 
         if (args.length == 0 && !WonderTradeForge.getConfig().isDisableUI()) {
-            this.openUI(player, attribute);
+            this.openUI(player);
             return;
         }
 
         if (args.length != 1) {
-            player.message(UtilChatColour.colour(WonderTradeForge.getInstance().getLocale().getCommandError()));
+            player.message(UtilChatColour.colour(WonderTradeForge.getLocale().getCommandError()));
             return;
         }
 
         PlayerPartyStorage party = StorageProxy.getParty(sender);
 
         if (party.getTeam().size() <= 1) {
-            player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender, WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
+            player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender, WonderTradeForge.getLocale().getMinimumPartySize())));
             return;
         }
 
         int slot = UtilParse.parseInteger(args[0]).orElse(-1);
 
         if (slot < 1 || slot > 6) {
-            player.message(UtilChatColour.colour(WonderTradeForge.getInstance().getLocale().getCommandError()));
+            player.message(UtilChatColour.colour(WonderTradeForge.getLocale().getCommandError()));
             return;
         }
 
         if (!attribute.isConfirm()) {
             player.message(UtilChatColour.colour(
-                    WonderTradeForge.getInstance().getLocale().getConfirmSell()
+                    WonderTradeForge.getLocale().getConfirmSell()
                             .replace("%slot%", slot + "")
             ));
             attribute.setConfirm(true);
@@ -83,14 +83,14 @@ public class WonderTradeCommand {
 
         if (pokemon.isUntradeable()) {
             player.message(UtilChatColour.colour(
-                    WonderTradeForge.getInstance().getLocale().getUntradeablePokemon()
+                    WonderTradeForge.getLocale().getUntradeablePokemon()
                             .replace("%slot%", slot + "")
             ));
             return;
         }
 
-        if (pokemon.getPokemonLevel() <= WonderTradeForge.getInstance().getConfig().getMinRequiredLevel()) {
-            player.message(UtilChatColour.colour(WonderTradeForge.getInstance().getLocale().getLevelTooLow()));
+        if (pokemon.getPokemonLevel() <= WonderTradeForge.getConfig().getMinRequiredLevel()) {
+            player.message(UtilChatColour.colour(WonderTradeForge.getLocale().getLevelTooLow()));
             return;
         }
 
@@ -99,12 +99,12 @@ public class WonderTradeCommand {
         attribute.setConfirm(false);
     }
 
-    private void openUI(ForgeEnvyPlayer player, WonderTradeAttribute attribute) {
+    private void openUI(ForgeEnvyPlayer player) {
         ServerPlayerEntity sender = player.getParent();
 
         if (StorageProxy.getParty(sender).getTeam().size() <= 1) {
             player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender,
-                    WonderTradeForge.getInstance().getLocale().getMinimumPartySize())));
+                    WonderTradeForge.getLocale().getMinimumPartySize())));
             return;
         }
 

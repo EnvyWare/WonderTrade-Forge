@@ -9,7 +9,7 @@ import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
-import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
+import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
@@ -22,7 +22,7 @@ public class ListViewUI {
     }
 
     public static void openUI(EnvyPlayer<ServerPlayerEntity> player, int page) {
-        WonderTradeConfig.ListUI config = WonderTradeForge.getInstance().getConfig().getListUI();
+        WonderTradeGraphics.ListUI config = WonderTradeForge.getGraphics().getListUI();
 
         Pane pane = GuiFactory.paneBuilder()
                 .height(config.getGuiSettings().getHeight())

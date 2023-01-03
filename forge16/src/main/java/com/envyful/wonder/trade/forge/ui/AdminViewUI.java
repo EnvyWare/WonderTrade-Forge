@@ -8,7 +8,7 @@ import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
-import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
+import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -22,7 +22,7 @@ public class AdminViewUI {
     }
 
     public static void openUI(EnvyPlayer<ServerPlayerEntity> player, int page) {
-        WonderTradeConfig.AdminUISettings config = WonderTradeForge.getInstance().getConfig().getAdminUI();
+        WonderTradeGraphics.AdminUISettings config = WonderTradeForge.getGraphics().getAdminUI();
 
         Pane pane = GuiFactory.paneBuilder()
                 .height(config.getGuiSettings().getHeight())
