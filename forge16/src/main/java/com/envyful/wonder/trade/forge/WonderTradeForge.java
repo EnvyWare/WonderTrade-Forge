@@ -12,6 +12,7 @@ import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
+import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
 import com.envyful.wonder.trade.forge.config.WonderTradeLocale;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
@@ -41,6 +42,7 @@ public class WonderTradeForge {
     private Database database;
     private WonderTradeConfig config;
     private WonderTradeLocale locale;
+    private WonderTradeGraphics graphics;
     private WonderTradeManager manager;
 
     public WonderTradeForge() {
@@ -79,6 +81,7 @@ public class WonderTradeForge {
         try {
             this.config = YamlConfigFactory.getInstance(WonderTradeConfig.class);
             this.locale = YamlConfigFactory.getInstance(WonderTradeLocale.class);
+            this.graphics = YamlConfigFactory.getInstance(WonderTradeGraphics.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,8 +108,8 @@ public class WonderTradeForge {
         return instance;
     }
 
-    public WonderTradeConfig getConfig() {
-        return this.config;
+    public static WonderTradeConfig getConfig() {
+        return instance.config;
     }
 
     public Database getDatabase() {
@@ -123,5 +126,9 @@ public class WonderTradeForge {
 
     public WonderTradeLocale getLocale() {
         return this.locale;
+    }
+
+    public static WonderTradeGraphics getGraphics() {
+        return instance.graphics;
     }
 }

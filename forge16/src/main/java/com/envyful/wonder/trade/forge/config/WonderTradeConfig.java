@@ -42,29 +42,13 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     private AdminUISettings adminUI = new AdminUISettings();
     private ListUI listUI = new ListUI();
 
-    private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 5, "BLOCK", ImmutableMap.of("one", new ConfigItem(
-            "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
-    )));
-
-    private ConfigItem levelTooLowItem = new ConfigItem("minecraft:red_stained_glass_pane", 1, "&c&lLevel too low", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap());
-
-    private ConfigItem untradeableItem = new ConfigItem("minecraft:red_stained_glass_pane", 1, "&c&lUntradeable", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap());
-
-    private ConfigItem clickToConfirmButton = new ConfigItem("minecraft:lime_stained_glass_pane", 1, "&a&lClick to confirm", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap());
-
-    private ExtendedConfigItem noneSelectedItem = new ExtendedConfigItem("minecraft:barrier", 1,
-            "&c&lNone selected", Lists.newArrayList(), 5, 2, Maps.newHashMap());
-
     private Map<String, WebHookTriggers> webHooks = ImmutableMap.of(
             "one", new WebHookTriggers("config/WonderTradeForge/leg_web_hook.json", "legendary")
     );
 
-    private SpriteConfig spriteConfig = new SpriteConfig();
-
     private int cooldownSeconds = 3600;
     private int minRequiredLevel = 30;
     private int numberInPool = 30;
-    private int selectedSpritePos = 23;
     private boolean persistentPool = true;
     private boolean disableUI = false;
 
@@ -72,26 +56,6 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public SaveMode getSaveMode() {
         return this.saveMode;
-    }
-
-    public ExtendedConfigItem getNoneSelectedItem() {
-        return this.noneSelectedItem;
-    }
-
-    public ConfigItem getClickToConfirmButton() {
-        return this.clickToConfirmButton;
-    }
-
-    public ConfigItem getUntradeableItem() {
-        return this.untradeableItem;
-    }
-
-    public ConfigItem getLevelTooLowItem() {
-        return this.levelTooLowItem;
-    }
-
-    public ConfigInterface getGuiSettings() {
-        return this.guiSettings;
     }
 
     public boolean isPersistentPool() {
@@ -120,14 +84,6 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
     public BroadcastSettings getBroadcastSettings() {
         return this.broadcastSettings;
-    }
-
-    public SpriteConfig getSpriteConfig() {
-        return this.spriteConfig;
-    }
-
-    public int getSelectedSpritePos() {
-        return this.selectedSpritePos;
     }
 
     public AdminUISettings getAdminUI() {
