@@ -124,8 +124,8 @@ public class WonderTradeForge {
         return this.manager;
     }
 
-    public WonderTradeLocale getLocale() {
-        return this.locale;
+    public static WonderTradeLocale getLocale() {
+        return instance.locale;
     }
 
     public static WonderTradeGraphics getGraphics() {

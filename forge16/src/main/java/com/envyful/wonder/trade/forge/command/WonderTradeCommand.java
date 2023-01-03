@@ -46,7 +46,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        if (args.length == 0 && !WonderTradeForge.getInstance().getConfig().isDisableUI()) {
+        if (args.length == 0 && !WonderTradeForge.getConfig().isDisableUI()) {
             this.openUI(player, attribute);
             return;
         }
@@ -110,5 +110,6 @@ public class WonderTradeCommand {
 
         StorageProxy.getParty(sender).retrieveAll();
         PokemonSelectUI.openUI(WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender));
+        player.message(WonderTradeForge.getLocale().getOpeningUI());
     }
 }
