@@ -154,8 +154,11 @@ public class WonderTradeManager {
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
         player.message(UtilChatColour.colour(
-                UtilPlaceholder.replaceIdentifiers(player.getParent(), this.mod.getLocale().getTradeSuccessful()
-                .replace("%species%", pokemon.getSpecies().getLocalizedName()))));
+                UtilPlaceholder.replaceIdentifiers(player.getParent(), WonderTradeForge.getLocale().getTradeSuccessful()
+                        .replace("%species%", pokemon.getSpecies().getLocalizedName())
+                        .replace("%is_shiny%", WonderTradeForge.getLocale().getShinyReplacement())
+                        .replace("%is_ultrabeast%", WonderTradeForge.getLocale().getUltraBeastReplacement())
+                        .replace("%is_legend%", WonderTradeForge.getLocale().getLegendReplacement()))));
 
         UtilConcurrency.runAsync(this::saveFile);
     }
