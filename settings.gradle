@@ -1,3 +1,2 @@
 rootProject.name = 'WonderTrade'
-include 'forge',
-        'forge16'
+include 'forge16'
