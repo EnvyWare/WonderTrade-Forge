@@ -70,12 +70,12 @@ public class WonderTradeCommand {
             return;
         }
 
-        if (!attribute.isConfirm()) {
+        if (!attribute.isConfirming(slot)) {
             player.message(UtilChatColour.colour(
                     WonderTradeForge.getLocale().getConfirmSell()
                             .replace("%slot%", slot + "")
             ));
-            attribute.setConfirm(true);
+            attribute.setConfirm(slot);
             return;
         }
 
@@ -96,7 +96,7 @@ public class WonderTradeCommand {
 
         StorageProxy.getParty(sender).retrieveAll();
         WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, pokemon);
-        attribute.setConfirm(false);
+        attribute.setConfirm(-1);
     }
 
     private void openUI(ForgeEnvyPlayer player) {
