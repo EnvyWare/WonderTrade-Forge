@@ -123,9 +123,12 @@ public class WonderTradeGraphics extends AbstractYamlConfig {
     @ConfigSerializable
     public static class AdminUISettings {
 
-        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one", new ConfigItem(
-                "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
-        )));
+        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one",
+                ConfigItem.builder()
+                        .type("minecraft:black_stained_glass_pane")
+                        .amount(1)
+                        .name(" ")
+                        .build()));
 
         private List<Integer> pagePositions = Lists.newArrayList(
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
@@ -171,9 +174,12 @@ public class WonderTradeGraphics extends AbstractYamlConfig {
     @ConfigSerializable
     public static class ListUI {
 
-        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one", new ConfigItem(
-                "minecraft:black_stained_glass_pane", 1, " ", Lists.newArrayList(), Maps.newHashMap(), Maps.newHashMap()
-        )));
+        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one",
+                ConfigItem.builder()
+                        .type("minecraft:black_stained_glass_pane")
+                        .amount(1)
+                        .name(" ")
+                        .build()));
 
         private List<Integer> pagePositions = Lists.newArrayList(
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,

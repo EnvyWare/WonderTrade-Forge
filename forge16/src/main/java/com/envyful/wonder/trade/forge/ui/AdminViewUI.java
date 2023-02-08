@@ -3,25 +3,24 @@ package com.envyful.wonder.trade.forge.ui;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
+import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
-import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
-import net.minecraft.entity.player.ServerPlayerEntity;
 
 import java.util.List;
 
 public class AdminViewUI {
 
-    public static void openUI(EnvyPlayer<ServerPlayerEntity> player) {
+    public static void openUI(ForgeEnvyPlayer player) {
         openUI(player, 0);
     }
 
-    public static void openUI(EnvyPlayer<ServerPlayerEntity> player, int page) {
+    public static void openUI(ForgeEnvyPlayer player, int page) {
         WonderTradeGraphics.AdminUISettings config = WonderTradeForge.getGraphics().getAdminUI();
 
         Pane pane = GuiFactory.paneBuilder()
@@ -55,21 +54,28 @@ public class AdminViewUI {
                     }).build());
         }
 
-        UtilConfigItem.addConfigItem(pane, config.getNextPageButton(), (envyPlayer, clickType) -> {
-            if (((page + 1) * config.getPagePositions().size()) > tradePool.size()) {
-                openUI(player, 0);
-            } else {
-                openUI(player, page + 1);
-            }
-        });
+        UtilConfigItem.builder()
+                .asyncClick()
+                .clickHandler((envyPlayer, clickType) -> {
+                    if (((page + 1) * config.getPagePositions().size()) > tradePool.size()) {
+                        openUI(player, 0);
+                    } else {
+                        openUI(player, page + 1);
+                    }
+                })
+                .extendedConfigItem(player, pane, config.getNextPageButton());
 
-        UtilConfigItem.addConfigItem(pane, config.getPreviousPageButton(), (envyPlayer, clickType) -> {
-            if (page == 0) {
-                openUI(player, (tradePool.size() / config.getPagePositions().size()));
-            } else {
-                openUI(player, 0);
-            }
-        });
+
+        UtilConfigItem.builder()
+                .asyncClick()
+                .clickHandler((envyPlayer, clickType) -> {
+                    if (page == 0) {
+                        openUI(player, (tradePool.size() / config.getPagePositions().size()));
+                    } else {
+                        openUI(player, 0);
+                    }
+                })
+                .extendedConfigItem(player, pane, config.getPreviousPageButton());
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
