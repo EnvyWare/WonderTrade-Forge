@@ -182,12 +182,16 @@ public class WonderTradeManager {
     }
 
     private ITextComponent getFormattedLine(EnvyPlayer<ServerPlayerEntity> player, Pokemon newPoke, String line) {
-        return UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(player.getParent(), line
+        return UtilChatColour.colour(this.handlePlaceholders(player, newPoke, line));
+    }
+
+    public String handlePlaceholders(EnvyPlayer<ServerPlayerEntity> player, Pokemon newPoke, String line) {
+        return UtilPlaceholder.replaceIdentifiers(player.getParent(), line
                 .replace("%is_shiny%", newPoke.isShiny() ? this.mod.getLocale().getShinyReplacement() : "")
                 .replace("%is_ultra_beast%", newPoke.isUltraBeast() ? this.mod.getLocale().getUltraBeastReplacement() : "")
                 .replace("%is_legend%", newPoke.isLegendary() ? this.mod.getLocale().getLegendReplacement() : "")
-                .replace("%pokemon%", newPoke.getDisplayName()))
-        );
+                .replace("%species%", newPoke.getSpecies().getName())
+                .replace("%pokemon%", newPoke.getDisplayName()));
     }
 
     public List<Pokemon> getTradePool() {

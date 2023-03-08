@@ -199,7 +199,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             return DiscordWebHook.fromJson(this.webHookJson
                     .replace("%received%", event.getReceived().getDisplayName())
                     .replace("%given%", event.getGiven().getDisplayName())
-                    .replace("%species%", event.getReceived().getSpecies().getLocalizedName())
+                    .replace("%given_species%", event.getGiven().getSpecies().getLocalizedName())
+                    .replace("%received_species%", event.getReceived().getSpecies().getLocalizedName())
                     .replace("%player%", event.getPlayer().getName()));
         }
 
