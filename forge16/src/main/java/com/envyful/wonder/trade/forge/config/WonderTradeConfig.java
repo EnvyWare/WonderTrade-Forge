@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @ConfigPath("config/WonderTradeForge/config.yml")
@@ -104,6 +105,8 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             while (this.isBlockedSpec(randomSpecies)) {
                 randomSpecies = this.getRandomPokemon();
             }
+
+            randomSpecies.setOriginalTrainer(UUID.randomUUID(), "WonderTrade");
 
             return randomSpecies;
         }
