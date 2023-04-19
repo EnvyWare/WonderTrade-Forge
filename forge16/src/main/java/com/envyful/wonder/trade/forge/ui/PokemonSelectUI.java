@@ -14,6 +14,7 @@ import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
+import com.envyful.wonder.trade.forge.ui.placeholder.FPAPIPlaceholder;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.PlayerPartyStorage;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
@@ -39,7 +40,7 @@ public class PokemonSelectUI {
                 .topLeftY(0)
                 .build();
 
-        UtilConfigInterface.fillBackground(pane, config.getGuiSettings());
+        UtilConfigInterface.fillBackground(pane, config.getGuiSettings(), new FPAPIPlaceholder(player.getParent()));
 
         PlayerPartyStorage party = StorageProxy.getParty(player.getParent());
         Pokemon[] all = party.getAll();
@@ -71,7 +72,7 @@ public class PokemonSelectUI {
 
             pane.set(selectedSpritePosX, selectedSpritePosY, GuiFactory.displayable(UtilSprite.getPokemonElement(all[attribute.getSelected()], config.getSpriteConfig())));
         } else {
-            UtilConfigItem.builder().extendedConfigItem(player, pane, config.getNoneSelectedItem());
+            UtilConfigItem.builder().extendedConfigItem(player, pane, config.getNoneSelectedItem(), new FPAPIPlaceholder(player.getParent()));
         }
 
         UtilConfigItem.builder()
@@ -88,7 +89,7 @@ public class PokemonSelectUI {
                     UtilForgeConcurrency.runSync(() -> WonderTradeForge.getInstance().getManager()
                             .replaceRandomPokemon((EnvyPlayer<ServerPlayerEntity>)envyPlayer, pokemon));
                 })
-                .extendedConfigItem(player, pane, config.getClickToConfirmButton());
+                .extendedConfigItem(player, pane, config.getClickToConfirmButton(), new FPAPIPlaceholder(player.getParent()));
 
         GuiFactory.guiBuilder()
                 .addPane(pane)

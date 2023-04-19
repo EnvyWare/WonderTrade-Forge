@@ -44,6 +44,7 @@ public class WonderTradeForge {
     private WonderTradeLocale locale;
     private WonderTradeGraphics graphics;
     private WonderTradeManager manager;
+    private boolean placeholderAPI = false;
 
     public WonderTradeForge() {
         instance = this;
@@ -62,6 +63,8 @@ public class WonderTradeForge {
 
         this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
         MinecraftForge.EVENT_BUS.register(new WonderTradeListener());
+
+        this.placeholderAPI = this.hasPlaceholderSupport();
 
         if (this.config.getSaveMode() == SaveMode.MYSQL) {
             UtilConcurrency.runAsync(() -> {
@@ -84,6 +87,15 @@ public class WonderTradeForge {
             this.graphics = YamlConfigFactory.getInstance(WonderTradeGraphics.class);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected boolean hasPlaceholderSupport() {
+        try {
+            Class.forName("com.envyful.papi.forge.ForgePlaceholderAPI");
+            return true;
+        } catch (ClassNotFoundException ignored) {
+            return false;
         }
     }
 
@@ -130,5 +142,9 @@ public class WonderTradeForge {
 
     public static WonderTradeGraphics getGraphics() {
         return instance.graphics;
+    }
+
+    public static boolean isPlaceholderAPIEnabled() {
+        return instance.placeholderAPI;
     }
 }

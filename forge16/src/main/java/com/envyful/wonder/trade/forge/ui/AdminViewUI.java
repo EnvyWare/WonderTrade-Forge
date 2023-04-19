@@ -9,6 +9,7 @@ import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
+import com.envyful.wonder.trade.forge.ui.placeholder.FPAPIPlaceholder;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 
@@ -30,7 +31,7 @@ public class AdminViewUI {
                 .topLeftY(0)
                 .build();
 
-        UtilConfigInterface.fillBackground(pane, config.getGuiSettings());
+        UtilConfigInterface.fillBackground(pane, config.getGuiSettings(), new FPAPIPlaceholder(player.getParent()));
 
         List<Pokemon> tradePool = WonderTradeForge.getInstance().getManager().getTradePool();
 
@@ -63,7 +64,7 @@ public class AdminViewUI {
                         openUI(player, page + 1);
                     }
                 })
-                .extendedConfigItem(player, pane, config.getNextPageButton());
+                .extendedConfigItem(player, pane, config.getNextPageButton(), new FPAPIPlaceholder(player.getParent()));
 
 
         UtilConfigItem.builder()
@@ -75,7 +76,7 @@ public class AdminViewUI {
                         openUI(player, 0);
                     }
                 })
-                .extendedConfigItem(player, pane, config.getPreviousPageButton());
+                .extendedConfigItem(player, pane, config.getPreviousPageButton(), new FPAPIPlaceholder(player.getParent()));
 
         GuiFactory.guiBuilder()
                 .addPane(pane)

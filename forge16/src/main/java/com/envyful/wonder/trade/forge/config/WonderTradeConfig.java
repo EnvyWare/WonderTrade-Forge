@@ -6,6 +6,8 @@ import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.discord.DiscordWebHook;
 import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.SaveMode;
+import com.envyful.papi.api.util.UtilPlaceholder;
+import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.event.WonderTradeEvent;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -14,6 +16,7 @@ import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonBuilder;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.IVStore;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.io.IOException;
@@ -201,6 +204,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             modifiedJson = this.handlePlaceholders(modifiedJson, "", event.getGiven());
             modifiedJson = this.handlePlaceholders(modifiedJson, "received_", event.getReceived());
 
+            if (WonderTradeForge.isPlaceholderAPIEnabled()) {
+                modifiedJson = this.useFPAPI(event.getPlayer().getParent(), modifiedJson);
+            }
+
             return DiscordWebHook.fromJson(modifiedJson
                     .replace("%received%", event.getReceived().getDisplayName())
                     .replace("%given%", event.getGiven().getDisplayName())
@@ -224,6 +231,10 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             }
 
             return joiner.toString();
+        }
+
+        private String useFPAPI(ServerPlayerEntity player, String json) {
+            return UtilPlaceholder.replaceIdentifiers(player, json);
         }
 
         public PokemonSpecification getSpec() {

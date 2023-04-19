@@ -9,6 +9,7 @@ import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
+import com.envyful.wonder.trade.forge.ui.placeholder.FPAPIPlaceholder;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class ListViewUI {
                 .topLeftY(0)
                 .build();
 
-        UtilConfigInterface.fillBackground(pane, config.getGuiSettings());
+        UtilConfigInterface.fillBackground(pane, config.getGuiSettings(), new FPAPIPlaceholder(player.getParent()));
 
         List<Pokemon> tradePool = WonderTradeForge.getInstance().getManager().getTradePool();
 
@@ -52,7 +53,7 @@ public class ListViewUI {
                         openUI(player, page + 1);
                     }
                 })
-                .extendedConfigItem(player, pane, config.getNextPageButton());
+                .extendedConfigItem(player, pane, config.getNextPageButton(), new FPAPIPlaceholder(player.getParent()));
 
 
         UtilConfigItem.builder()
@@ -64,7 +65,7 @@ public class ListViewUI {
                         openUI(player, 0);
                     }
                 })
-                .extendedConfigItem(player, pane, config.getPreviousPageButton());
+                .extendedConfigItem(player, pane, config.getPreviousPageButton(), new FPAPIPlaceholder(player.getParent()));
 
         UtilConfigItem.builder()
                         .asyncClick(false)
@@ -72,7 +73,7 @@ public class ListViewUI {
                             player.executeCommand("/wt");
                         })
                         .singleClick()
-                        .extendedConfigItem(player, pane, config.getSelectUIButton());
+                        .extendedConfigItem(player, pane, config.getSelectUIButton(), new FPAPIPlaceholder(player.getParent()));
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
