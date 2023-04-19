@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 @ConfigPath("config/WonderTradeForge/config.yml")
@@ -199,12 +197,33 @@ public class WonderTradeConfig extends AbstractYamlConfig {
                 return null;
             }
 
-            return DiscordWebHook.fromJson(this.webHookJson
+            String modifiedJson = this.handlePlaceholders(this.webHookJson, "given_", event.getGiven());
+            modifiedJson = this.handlePlaceholders(modifiedJson, "", event.getGiven());
+            modifiedJson = this.handlePlaceholders(modifiedJson, "received_", event.getReceived());
+
+            return DiscordWebHook.fromJson(modifiedJson
                     .replace("%received%", event.getReceived().getDisplayName())
                     .replace("%given%", event.getGiven().getDisplayName())
-                    .replace("%given_species%", event.getGiven().getSpecies().getLocalizedName())
-                    .replace("%received_species%", event.getReceived().getSpecies().getLocalizedName())
                     .replace("%player%", event.getPlayer().getName()));
+        }
+
+        private String handlePlaceholders(String json, String speciesPrefix, Pokemon pokemon) {
+            return json.replace("%" + speciesPrefix + "species%", pokemon.getSpecies().getLocalizedName())
+                    .replace("%" + speciesPrefix + "species_lower%", pokemon.getSpecies().getLocalizedName().toLowerCase(Locale.ROOT))
+                    .replace("%" + speciesPrefix + "evs%", getFormattedIntegerArray(pokemon.getEVs().getArray()))
+                    .replace("%" + speciesPrefix + "ivs%", getFormattedIntegerArray(pokemon.getIVs().getArray()))
+                    .replace("%" + speciesPrefix + "growth%", pokemon.getGrowth().getLocalizedName())
+                    .replace("%" + speciesPrefix + "nature%", pokemon.getNature().getLocalizedName());
+        }
+
+        private String getFormattedIntegerArray(int[] array) {
+            StringJoiner joiner = new StringJoiner(", ");
+
+            for (int i : array) {
+                joiner.add(String.valueOf(i));
+            }
+
+            return joiner.toString();
         }
 
         public PokemonSpecification getSpec() {
