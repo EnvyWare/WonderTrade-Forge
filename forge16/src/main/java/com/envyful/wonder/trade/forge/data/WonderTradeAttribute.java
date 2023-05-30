@@ -1,8 +1,7 @@
 package com.envyful.wonder.trade.forge.data;
 
-import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
-import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.player.save.attribute.DataDirectory;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
@@ -12,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @DataDirectory("config/players/WonderTrade/")
@@ -26,12 +24,8 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
     private int selected = -1;
     private int confirmedSlot = -1;
 
-    public WonderTradeAttribute(WonderTradeForge manager, EnvyPlayer<?> parent) {
-        super(manager, (ForgeEnvyPlayer) parent);
-    }
-
-    public WonderTradeAttribute(UUID uuid) {
-        super(uuid);
+    public WonderTradeAttribute(WonderTradeForge manager, ForgePlayerManager playerManager) {
+        super(manager, playerManager);
     }
 
     public boolean canTrade() {

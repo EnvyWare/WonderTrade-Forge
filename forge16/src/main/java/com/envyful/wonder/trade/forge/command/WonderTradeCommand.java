@@ -94,7 +94,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        StorageProxy.getParty(sender).retrieveAll();
+        StorageProxy.getParty(sender).retrieveAll("WONDER_TRADE");
         WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, pokemon);
         attribute.setConfirm(-1);
     }
@@ -108,7 +108,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        StorageProxy.getParty(sender).retrieveAll();
+        StorageProxy.getParty(sender).retrieveAll("WONDER_TRADE");
         PokemonSelectUI.openUI(WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender));
         player.message(WonderTradeForge.getLocale().getOpeningUI());
     }

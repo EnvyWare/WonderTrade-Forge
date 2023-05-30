@@ -58,7 +58,7 @@ public class WonderTradeForge {
         this.loadConfig();
 
         if (this.config.getSaveMode() == SaveMode.JSON) {
-            this.playerManager.setSaveManager(new JsonSaveManager<>());
+            this.playerManager.setSaveManager(new JsonSaveManager<>(this.playerManager));
         }
 
         this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
