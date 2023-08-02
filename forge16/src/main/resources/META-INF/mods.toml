@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[36,)"
 license="MIT"
-issueTrackerURL="https://github.com/EnvyWare/BetterDexRewards/issues"
+issueTrackerURL="https://github.com/EnvyWare/WonderTrade-Forge/issues"
 
 [[mods]]
 modId="wondertrade"
