@@ -53,6 +53,7 @@ dependencies {
 }
 
 shadowJar {
+    configurations = [project.configurations.shadow]
     finalizedBy('reobfJar')
     zip64 = true
     setArchiveClassifier('')
