@@ -47,7 +47,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
 
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.5-server:9.1.5'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.6-server:9.1.6'
     compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.3'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
