@@ -16,3 +16,4 @@ plugins {
 
 rootProject.name = 'WonderTrade'
 include 'forge16'
+include 'forge20'

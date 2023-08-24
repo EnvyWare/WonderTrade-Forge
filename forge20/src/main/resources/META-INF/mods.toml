@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+issueTrackerURL="https://github.com/EnvyWare/WonderTrade-Forge/issues"
+
+[[mods]]
+modId="wondertrade"
+version="6.5.0"
+displayName="WonderTrade Forge"
+displayURL="https://github.com/EnvyWare"
+credits="https://github.com/EnvyWare"
+authors="https://github.com/EnvyWare"
+updateJSONURL="https://ogn.pixelmonmod.com/update/sm-wt/update.json"
+description='''
+Adds WonderTrade
+'''
+
+[[dependencies.wondertrade]]
+modId="forge"
+mandatory=true
+versionRange="[36,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.wondertrade]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16.5,1.17)"
+ordering="NONE"
+side="BOTH"
