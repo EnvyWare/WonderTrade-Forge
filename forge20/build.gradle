@@ -13,64 +13,59 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-    maven {
-        name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-
-    maven {
-        url "https://maven.envyware.co.uk/releases"
-    }
-
-    ivy {
-        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
-        metadataSources {
-            artifact()
-        }
-        patternLayout {
-            artifact('[revision]/[artifact].[ext]')
-        }
-    }
-}
+repositories {}
 
 dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.1.44"
 
-    implementation 'pixelmon:Pixelmon-1.20.1-9.2.0-server:9.2.0'
+    implementation 'pixelmon:Pixelmon-1.20.1-9.2.1-server:9.2.1'
 
     implementation 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.4'
 
     implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.1'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.0.1') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.2'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.0.2') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.0.1') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.0.2') {
         transitive = false;
     }
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
-    finalizedBy('reobfJar')
-    zip64 = true
     setArchiveClassifier('')
-    setArchiveBaseName(rootProject.name + "-Forge")
+    setArchiveBaseName("${rootProject.name}-Forge")
 
-    relocate('org.spongepowered.configurate', 'com.envyful.wonder.trade.forge.shade.configurate')
-    relocate('org.yaml.snakeyaml', 'com.envyful.wonder.trade.forge.shade.snakeyaml')
-    relocate('io.leangen.geantyref', 'com.envyful.wonder.trade.forge.shade.geantyref')
-    relocate('com.google.gson', 'com.envyful.wonder.trade.forge.shade.gson')
-    relocate('com.zaxxer', 'com.envyful.wonder.trade.forge.shade.hikari')
-    relocate('org.slf4j', 'com.envyful.wonder.trade.forge.shade.slf4j')
-    relocate('com.envyful.api', 'com.envyful.wonder.trade.forge.shade.envy.api')
-    relocate('org.bstats', 'com.envyful.wonder.trade.forge.shade.bstats')
-
+    relocate('org.spongepowered.configurate', 'com.envyful.battle.tower.shade.configurate')
+    relocate('org.yaml.snakeyaml', 'com.envyful.battle.tower.shade.snakeyaml')
+    relocate('io.leangen.geantyref', 'com.envyful.battle.tower.shade.geantyref')
+    relocate('com.google.gson', 'com.envyful.battle.tower.shade.gson')
+    relocate('com.zaxxer', 'com.envyful.battle.tower.shade.hikari')
+    relocate('org.slf4j', 'com.envyful.battle.tower.shade.slf4j')
+    relocate('com.envyful.api', 'com.envyful.battle.tower.shade.envy.api')
+    relocate('org.bstats', 'com.envyful.battle.tower.shade.bstats')
+    relocate('com.google.common', 'com.envyful.battle.tower.shade.guava')
+    relocate('org.apache.logging', 'com.envyful.battle.tower.shade.log4j')
+    relocate('io.netty', 'com.envyful.battle.tower.shade.netty')
+    relocate('io.lettuce', 'com.envyful.battle.tower.shade.lettuce')
+    relocate('com.cronutils', 'com.envyful.battle.tower.shade.cronutils')
+    relocate('com.cronutils', 'com.envyful.battle.tower.shade.cronutils')
+    relocate('com.sun.el', 'com.envyful.battle.tower.shade.sun.el')
+    relocate('javax', 'com.envyful.battle.tower.shade.javax')
+    relocate('javax', 'com.envyful.battle.tower.shade.javax')
+    relocate('org.reactivestreams', 'com.envyful.battle.tower.shade.reactivestreams')
+    relocate('reactor', 'com.envyful.battle.tower.shade.reactor')
 
     exclude "**/module-info.class"
+    exclude "**/*.properties"
+    exclude "**/*.xml"
+    exclude "META-INF/versions/9/**"
+    exclude "META-INF/native-image/**"
+    exclude "META-INF/services/**"
 }
 
 jar.finalizedBy('shadowJar')
+shadowJar.finalizedBy('reobfJar')
 build.finalizedBy('versionedRelease')
