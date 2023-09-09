@@ -25,7 +25,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 public class PokemonSelectUI {
 
     public static void openUI(ForgeEnvyPlayer player) {
-        WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+        WonderTradeAttribute attribute = player.getAttribute(WonderTradeAttribute.class);
 
         if (attribute == null) {
             return;
@@ -78,7 +78,7 @@ public class PokemonSelectUI {
         UtilConfigItem.builder()
                 .asyncClick(true)
                 .clickHandler((envyPlayer, clickType) -> {
-                    WonderTradeAttribute att = player.getAttribute(WonderTradeForge.class);
+                    WonderTradeAttribute att = player.getAttribute(WonderTradeAttribute.class);
 
                     if (att.getSelected() == -1) {
                         return;
@@ -106,7 +106,7 @@ public class PokemonSelectUI {
         pane.set(xPos, yPos,
                 GuiFactory.displayableBuilder(sprite)
                         .clickHandler((envyPlayer, clickType) -> {
-                            WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+                            WonderTradeAttribute attribute = player.getAttribute(WonderTradeAttribute.class);
 
                             int selectedSpritePosX = config.getSelectedSpritePos() % 9;
                             int selectedSpritePosY = config.getSelectedSpritePos() / 9;

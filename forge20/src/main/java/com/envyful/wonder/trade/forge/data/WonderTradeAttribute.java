@@ -1,7 +1,7 @@
 package com.envyful.wonder.trade.forge.data;
 
 import com.envyful.api.forge.player.ForgePlayerManager;
-import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
+import com.envyful.api.forge.player.attribute.ManagedForgeAttribute;
 import com.envyful.api.player.save.attribute.DataDirectory;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @DataDirectory("config/players/WonderTrade/")
-public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForge> {
+public class WonderTradeAttribute extends ManagedForgeAttribute<WonderTradeForge> {
 
     private static final long SECONDS_PER_MINUTE = 60;
     private static final long MINUTES_PER_HOUR = 60;
@@ -24,8 +24,8 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
     private int selected = -1;
     private int confirmedSlot = -1;
 
-    public WonderTradeAttribute(WonderTradeForge manager, ForgePlayerManager playerManager) {
-        super(manager, playerManager);
+    public WonderTradeAttribute(ForgePlayerManager playerManager) {
+        super(WonderTradeForge.getInstance(), playerManager);
     }
 
     public boolean canTrade() {
@@ -34,7 +34,7 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
         }
 
         return (System.currentTimeMillis() - this.lastTrade) >
-                TimeUnit.SECONDS.toMillis(this.manager.getConfig().getCooldownSeconds());
+                TimeUnit.SECONDS.toMillis(WonderTradeForge.getConfig().getCooldownSeconds());
     }
 
     public void updateLastTrade() {
@@ -102,7 +102,7 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
 
     public String getCooldownFormatted() {
         long seconds = Duration.ofMillis(
-                (this.lastTrade + TimeUnit.SECONDS.toMillis(this.manager.getConfig().getCooldownSeconds()))
+                (this.lastTrade + TimeUnit.SECONDS.toMillis(WonderTradeForge.getConfig().getCooldownSeconds()))
                         - System.currentTimeMillis()).getSeconds();
 
         long hoursPart = (seconds / SECONDS_PER_HOUR) % 24;

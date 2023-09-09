@@ -37,7 +37,7 @@ public class ResetCooldownCommand {
             return;
         }
 
-        WonderTradeAttribute attribute = target.getAttribute(WonderTradeForge.class);
+        WonderTradeAttribute attribute = target.getAttribute(WonderTradeAttribute.class);
 
         if (attribute == null) {
             sender.sendSystemMessage(UtilChatColour.colour("&c&l(!) &cPlease wait! That player has not loaded yet"));

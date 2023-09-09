@@ -119,7 +119,7 @@ public class WonderTradeManager {
     }
 
     public void replaceRandomPokemon(EnvyPlayer<ServerPlayer> player, Pokemon newPoke) {
-        WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+        WonderTradeAttribute attribute = player.getAttribute(WonderTradeAttribute.class);
 
         if (this.tradePool.isEmpty()) {
             System.out.println("ERROR: Trade Pool is empty");

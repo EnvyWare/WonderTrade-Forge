@@ -29,7 +29,7 @@ public class WonderTradeCommand {
     @CommandProcessor
     public void onCommand(@Sender ServerPlayer sender, String[] args) {
         ForgeEnvyPlayer player = WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender);
-        WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+        WonderTradeAttribute attribute = player.getAttribute(WonderTradeAttribute.class);
 
         if (attribute == null) {
             return;
