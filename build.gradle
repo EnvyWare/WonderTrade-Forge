@@ -2,7 +2,7 @@ subprojects {
     apply plugin: 'java'
 
     group = 'com.envyful.wonder.trade'
-    version = '6.6.3'
+    version = '6.6.4'
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
