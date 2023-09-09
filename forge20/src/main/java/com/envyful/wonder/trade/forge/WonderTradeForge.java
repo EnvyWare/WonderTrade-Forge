@@ -1,6 +1,7 @@
 package com.envyful.wonder.trade.forge;
 
 import com.envyful.api.concurrency.UtilConcurrency;
+import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
@@ -25,6 +26,8 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,6 +36,8 @@ import java.sql.SQLException;
 
 @Mod("wondertrade")
 public class WonderTradeForge {
+
+    private static final Logger LOGGER = LogManager.getLogger("wondertrade");
 
     private static WonderTradeForge instance;
 
@@ -47,6 +52,7 @@ public class WonderTradeForge {
     private boolean placeholderAPI = false;
 
     public WonderTradeForge() {
+        UtilLogger.setLogger(LOGGER);
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -61,7 +67,7 @@ public class WonderTradeForge {
             this.playerManager.setSaveManager(new JsonSaveManager<>(this.playerManager));
         }
 
-        this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
+        this.playerManager.registerAttribute(WonderTradeAttribute.class);
         MinecraftForge.EVENT_BUS.register(new WonderTradeListener());
 
         this.placeholderAPI = this.hasPlaceholderSupport();
