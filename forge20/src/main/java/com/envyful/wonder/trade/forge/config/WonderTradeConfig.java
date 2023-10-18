@@ -18,6 +18,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.PokemonBuilder;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.IVStore;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -30,9 +31,24 @@ import java.util.concurrent.ThreadLocalRandom;
 @ConfigSerializable
 public class WonderTradeConfig extends AbstractYamlConfig {
 
+    @Comment("""
+            The setting to tell the mod how to save the player data.
+            The options are:
+            - JSON
+            - MYSQL
+            """)
     private SaveMode saveMode = SaveMode.JSON;
+
     private BroadcastSettings broadcastSettings = new BroadcastSettings();
     private GenerationSettings defaultGeneratorSettings = new GenerationSettings();
+
+
+    @Comment("""
+            The MySQL database details.
+            This will only be used if the save mode is set to MYSQL
+            
+            NOTE: DO NOT SHARE THESE WITH ANYONE YOU DO NOT TRUST
+            """)
     private SQLDatabaseDetails databaseDetails = new SQLDatabaseDetails("WonderTrade", "0.0.0.0",
             3306, "admin", "password", "WonderTrade");
 
@@ -40,10 +56,29 @@ public class WonderTradeConfig extends AbstractYamlConfig {
             "one", new WebHookTriggers("config/WonderTradeForge/leg_web_hook.json", "legendary")
     );
 
+    @Comment("""
+            The cooldown, in seconds, between when people can submit pokemon to the pool
+            """)
     private int cooldownSeconds = 3600;
+
+    @Comment("""
+            The minimum level required for entry
+            """)
     private int minRequiredLevel = 30;
+
+    @Comment("""
+            The number of Pokemon that appear in the wonder trade pool
+            """)
     private int numberInPool = 30;
+
+    @Comment("""
+            If the pool resets after server restarts
+            """)
     private boolean persistentPool = true;
+
+    @Comment("""
+            Setting this to 'true' means that the GUI will not open
+            """)
     private boolean disableUI = false;
 
     public WonderTradeConfig() {}
@@ -91,10 +126,25 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class GenerationSettings {
 
+        @Comment("""
+                Pokemon that won't show up in the wonder trade pool
+                """)
         private List<String> blockedSpecs = Lists.newArrayList("hoopa");
         private transient List<PokemonSpecification> blockSpecsCache = null;
+
+        @Comment("""
+                If legendary pokemon can show up in the wonder trade pool
+                """)
         private boolean allowLegends = true;
+
+        @Comment("""
+                If ultra beast pokemon can show up in the wonder trade pool
+                """)
         private boolean allowUltraBeasts = true;
+
+        @Comment("""
+                The chance of a shiny pokemon appearing in the wonder trade pool
+                """)
         private double shinyChance = 0.05;
 
         public GenerationSettings() {
@@ -126,7 +176,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
                 List<PokemonSpecification> blockSpecsCache = Lists.newArrayList();
 
                 for (String blockedSpec : this.blockedSpecs) {
-                    blockSpecsCache.add(PokemonSpecificationProxy.create(blockedSpec));
+                    blockSpecsCache.add(PokemonSpecificationProxy.create(blockedSpec).get());
                 }
 
                 this.blockSpecsCache = blockSpecsCache;
@@ -145,9 +195,24 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class BroadcastSettings {
 
+        @Comment("""
+                If it should broadcast every pokemon added
+                """)
         private boolean alwaysBroadcast = true;
+
+        @Comment("""
+                If it should broadcast legendary pokemon that are added
+                """)
         private boolean broadcastLegends = true;
+
+        @Comment("""
+                if it should broadcast ultra best pokemon that are added
+                """)
         private boolean broadcastUltraBeasts = true;
+
+        @Comment("""
+                if it should broadcast shiny pokemon that are added
+                """)
         private boolean broadcastShinies = true;
 
         public boolean isAlwaysBroadcast() {
@@ -170,7 +235,14 @@ public class WonderTradeConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class WebHookTriggers {
 
+        @Comment("""
+                The path to the webhook JSON file
+                """)
         private String webHookPath;
+
+        @Comment("""
+                The spec that triggers the webhook to fire
+                """)
         private String triggerSpec;
         private transient PokemonSpecification spec = null;
         private transient String webHookJson = null;
@@ -239,7 +311,7 @@ public class WonderTradeConfig extends AbstractYamlConfig {
 
         public PokemonSpecification getSpec() {
             if (this.spec == null) {
-                this.spec = PokemonSpecificationProxy.create(this.triggerSpec);
+                this.spec = PokemonSpecificationProxy.create(this.triggerSpec).get();
             }
 
             return this.spec;

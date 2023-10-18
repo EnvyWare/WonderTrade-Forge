@@ -17,9 +17,8 @@ import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.server.level.ServerPlayer;
 
 @Command(
-        value = "wondertrade",
-        description = "Root wonder trade command",
-        aliases = {
+        value = {
+                "wondertrade",
                 "wt"
         }
 )
@@ -56,7 +55,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        PlayerPartyStorage party = StorageProxy.getParty(sender);
+        PlayerPartyStorage party = StorageProxy.getPartyNow(sender);
 
         if (party.getTeam().size() <= 1) {
             player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender, WonderTradeForge.getLocale().getMinimumPartySize())));
@@ -94,7 +93,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        StorageProxy.getParty(sender).retrieveAll("WONDER_TRADE");
+        StorageProxy.getPartyNow(sender).retrieveAll("WONDER_TRADE");
         WonderTradeForge.getInstance().getManager().replaceRandomPokemon(player, pokemon);
         attribute.setConfirm(-1);
     }
@@ -102,13 +101,13 @@ public class WonderTradeCommand {
     private void openUI(ForgeEnvyPlayer player) {
         ServerPlayer sender = player.getParent();
 
-        if (StorageProxy.getParty(sender).getTeam().size() <= 1) {
+        if (StorageProxy.getPartyNow(sender).getTeam().size() <= 1) {
             player.message(UtilChatColour.colour(UtilPlaceholder.replaceIdentifiers(sender,
                     WonderTradeForge.getLocale().getMinimumPartySize())));
             return;
         }
 
-        StorageProxy.getParty(sender).retrieveAll("WONDER_TRADE");
+        StorageProxy.getPartyNow(sender).retrieveAll("WONDER_TRADE");
         PokemonSelectUI.openUI(WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender));
         player.message(WonderTradeForge.getLocale().getOpeningUI());
     }

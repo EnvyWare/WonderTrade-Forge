@@ -1,10 +1,9 @@
 package com.envyful.wonder.trade.forge.command;
 
-import com.envyful.api.command.annotate.Child;
 import com.envyful.api.command.annotate.Command;
-import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.command.annotate.permission.Permissible;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
@@ -13,14 +12,12 @@ import net.minecraft.commands.CommandSource;
 import net.minecraft.server.level.ServerPlayer;
 
 @Command(
-        value = "resetcooldown",
-        description = "Reset cooldown command",
-        aliases = {
+        value = {
+                "resetcooldown",
                 "rc"
         }
 )
 @Permissible("wonder.trade.command.reset.cooldown")
-@Child
 public class ResetCooldownCommand {
 
     @CommandProcessor

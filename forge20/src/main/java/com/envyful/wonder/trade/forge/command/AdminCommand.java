@@ -1,25 +1,22 @@
 package com.envyful.wonder.trade.forge.command;
 
-import com.envyful.api.command.annotate.Child;
 import com.envyful.api.command.annotate.Command;
-import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.command.annotate.permission.Permissible;
 import com.envyful.api.type.UtilParse;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.ui.AdminViewUI;
 import net.minecraft.server.level.ServerPlayer;
 
 @Command(
-        value = "admin",
-        description = "Views the UI as an admin",
-        aliases = {
+        value = {
+                "admin",
                 "view",
                 "adminview",
                 "av"
         }
 )
-@Child
 @Permissible("wonder.trade.forge.command.admin")
 public class AdminCommand {
 

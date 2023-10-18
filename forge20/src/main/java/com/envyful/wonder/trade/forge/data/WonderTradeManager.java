@@ -142,12 +142,12 @@ public class WonderTradeManager {
         if (this.shouldBroadcast(newPoke)) {
             for (String broadcast : this.mod.getLocale().getPokemonBroadcast()) {
                 ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastSystemMessage(
-                        this.getFormattedLine(player, newPoke, broadcast), true);
+                        this.getFormattedLine(player, newPoke, broadcast), false);
             }
         }
 
         attribute.updateLastTrade();
-        StorageProxy.getParty(player.getParent()).set(newPoke.getStorageAndPosition().getB(), pokemon);
+        StorageProxy.getPartyNow(player.getParent()).set(newPoke.getStorageAndPosition().getB(), pokemon);
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
         player.message(UtilChatColour.colour(

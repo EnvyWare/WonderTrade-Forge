@@ -6,6 +6,7 @@ import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.command.parser.ForgeAnnotationCommandParser;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
@@ -42,7 +43,7 @@ public class WonderTradeForge {
     private static WonderTradeForge instance;
 
     private ForgePlayerManager playerManager = new ForgePlayerManager();
-    private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
+    private ForgeCommandFactory commandFactory = new ForgeCommandFactory(ForgeAnnotationCommandParser::new, playerManager);
 
     private Database database;
     private WonderTradeConfig config;
@@ -107,7 +108,7 @@ public class WonderTradeForge {
 
     @SubscribeEvent
     public void onServerStarting(RegisterCommandsEvent event) {
-        this.commandFactory.registerCommand(event.getDispatcher(), new WonderTradeCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), this.commandFactory.parseCommand(new WonderTradeCommand()));
     }
 
     @SubscribeEvent

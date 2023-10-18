@@ -42,7 +42,7 @@ public class PokemonSelectUI {
 
         UtilConfigInterface.fillBackground(pane, config.getGuiSettings(), new FPAPIPlaceholder(player.getParent()));
 
-        PlayerPartyStorage party = StorageProxy.getParty(player.getParent());
+        PlayerPartyStorage party = StorageProxy.getPartyNow(player.getParent());
         Pokemon[] all = party.getAll();
 
         for (int i = 0; i < all.length; i++) {
@@ -101,7 +101,7 @@ public class PokemonSelectUI {
     }
 
     private static void setPokemonDisplayItem(Pane pane, int xPos, int yPos, ItemStack sprite, ForgeEnvyPlayer player, int finalI, WonderTradeGraphics.SelectPokemonUI config) {
-        Pokemon[] all = StorageProxy.getParty(player.getParent()).getAll();
+        Pokemon[] all = StorageProxy.getPartyNow(player.getParent()).getAll();
 
         pane.set(xPos, yPos,
                 GuiFactory.displayableBuilder(sprite)
@@ -118,6 +118,7 @@ public class PokemonSelectUI {
                             attribute.setSelected(finalI);
                             pane.set(selectedSpritePosX, selectedSpritePosY,
                                     GuiFactory.displayable(UtilSprite.getPokemonElement(all[attribute.getSelected()], config.getSpriteConfig())));
+                            openUI(player);
                         })
                         .build());
     }
