@@ -1,27 +1,22 @@
 package com.envyful.wonder.trade.forge.command;
 
-import com.envyful.api.command.annotate.Child;
 import com.envyful.api.command.annotate.Command;
-import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.command.annotate.permission.Permissible;
 import com.envyful.api.forge.chat.UtilChatColour;
-import com.envyful.api.player.EnvyPlayer;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import net.minecraft.command.ICommandSource;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 
 @Command(
-        value = "resetcooldown",
-        description = "Reset cooldown command",
-        aliases = {
+        value = {
+                "resetcooldown",
                 "rc"
         }
 )
 @Permissible("wonder.trade.command.reset.cooldown")
-@Child
 public class ResetCooldownCommand {
 
     @CommandProcessor
@@ -31,14 +26,14 @@ public class ResetCooldownCommand {
             return;
         }
 
-        EnvyPlayer<ServerPlayerEntity> target = WonderTradeForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(args[0]);
+        var target = WonderTradeForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(args[0]);
 
         if (target == null) {
             sender.sendMessage(UtilChatColour.colour("&c&l(!) &cCannot find that player"), Util.NIL_UUID);
             return;
         }
 
-        WonderTradeAttribute attribute = target.getAttribute(WonderTradeForge.class);
+        var attribute = target.getAttributeNow(WonderTradeAttribute.class);
 
         if (attribute == null) {
             sender.sendMessage(UtilChatColour.colour("&c&l(!) &cPlease wait! That player has not loaded yet"), Util.NIL_UUID);

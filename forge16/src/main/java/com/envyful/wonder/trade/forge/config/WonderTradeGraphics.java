@@ -7,9 +7,7 @@ import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.reforged.pixelmon.config.SpriteConfig;
 import com.envyful.api.type.Pair;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
@@ -41,9 +39,16 @@ public class WonderTradeGraphics extends AbstractYamlConfig {
     @ConfigSerializable
     public static class SelectPokemonUI {
 
-        private ConfigInterface guiSettings = new ConfigInterface(
-                "WonderTrade", 5, "BLOCK", ImmutableMap.of("one", ConfigItem.builder()
-                .type("minecraft:black_stained_glass_pane").amount(1).name(" ").build()));
+        private ConfigInterface guiSettings = ConfigInterface.builder()
+                .title("WonderTrade")
+                .height(5)
+                .fillType(ConfigInterface.FillType.BLOCK)
+                .fillerItem(ConfigItem.builder()
+                        .type("minecraft:black_stained_glass_pane")
+                        .amount(1)
+                        .name(" ")
+                        .build())
+                .build();
 
         private ConfigItem levelTooLowItem = ConfigItem.builder()
                 .type("minecraft:red_stained_glass_pane")
@@ -123,27 +128,35 @@ public class WonderTradeGraphics extends AbstractYamlConfig {
     @ConfigSerializable
     public static class AdminUISettings {
 
-        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one",
-                ConfigItem.builder()
+        private ConfigInterface guiSettings = ConfigInterface.builder()
+                .title("WonderTrade")
+                .height(6)
+                .fillType(ConfigInterface.FillType.BLOCK)
+                .fillerItem(ConfigItem.builder()
                         .type("minecraft:black_stained_glass_pane")
                         .amount(1)
                         .name(" ")
-                        .build()));
+                        .build())
+                .build();
 
         private List<Integer> pagePositions = Lists.newArrayList(
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
                 25, 26, 27, 28, 29
         );
 
-        private ExtendedConfigItem nextPageButton = new ExtendedConfigItem(
-                "pixelmon:trade_holder_right", 1, (byte) 0, "&aNext Page",
-                Lists.newArrayList(), 8, 5, Maps.newHashMap()
-        );
+        private ExtendedConfigItem nextPageButton = ExtendedConfigItem.builder()
+                .type("pixelmon:trade_holder_right")
+                .amount(1)
+                .positions(8, 5)
+                .name("&aNext Page")
+                .build();
 
-        private ExtendedConfigItem previousPageButton = new ExtendedConfigItem(
-                "pixelmon:trade_holder_left", 1, (byte) 0, "&aPrevious Page",
-                Lists.newArrayList(), 0, 5, Maps.newHashMap()
-        );
+        private ExtendedConfigItem previousPageButton = ExtendedConfigItem.builder()
+                .type("pixelmon:trade_holder_right")
+                .amount(1)
+                .positions(0, 5)
+                .name("&aPrevious Page")
+                .build();
 
         private SpriteConfig sprites = new SpriteConfig();
 
@@ -174,32 +187,42 @@ public class WonderTradeGraphics extends AbstractYamlConfig {
     @ConfigSerializable
     public static class ListUI {
 
-        private ConfigInterface guiSettings = new ConfigInterface("WonderTrade", 6, "BLOCK", ImmutableMap.of("one",
-                ConfigItem.builder()
+        private ConfigInterface guiSettings = ConfigInterface.builder()
+                .title("WonderTrade")
+                .height(6)
+                .fillType(ConfigInterface.FillType.BLOCK)
+                .fillerItem(ConfigItem.builder()
                         .type("minecraft:black_stained_glass_pane")
                         .amount(1)
                         .name(" ")
-                        .build()));
+                        .build())
+                .build();
 
         private List<Integer> pagePositions = Lists.newArrayList(
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
                 25, 26, 27, 28, 29
         );
 
-        private ExtendedConfigItem nextPageButton = new ExtendedConfigItem(
-                "pixelmon:trade_holder_right", 1, (byte) 0, "&aNext Page",
-                Lists.newArrayList(), 8, 5, Maps.newHashMap()
-        );
+        private ExtendedConfigItem nextPageButton = ExtendedConfigItem.builder()
+                .type("pixelmon:trade_holder_right")
+                .amount(1)
+                .positions(8, 5)
+                .name("&aNext Page")
+                .build();
 
-        private ExtendedConfigItem previousPageButton = new ExtendedConfigItem(
-                "pixelmon:trade_holder_left", 1, (byte) 0, "&aPrevious Page",
-                Lists.newArrayList(), 0, 5, Maps.newHashMap()
-        );
+        private ExtendedConfigItem previousPageButton = ExtendedConfigItem.builder()
+                .type("pixelmon:trade_holder_right")
+                .amount(1)
+                .positions(0, 5)
+                .name("&aPrevious Page")
+                .build();
 
-        private ExtendedConfigItem selectUIButton = new ExtendedConfigItem(
-                "minecraft:clock", 1, (byte) 0, "&aWT a Poke",
-                Lists.newArrayList(), 5, 5, Maps.newHashMap()
-        );
+        private ExtendedConfigItem selectUIButton = ExtendedConfigItem.builder()
+                .type("minecraft:clock")
+                .amount(1)
+                .positions(5, 5)
+                .name("&aWT a Poke")
+                .build();
 
         private SpriteConfig sprites = new SpriteConfig();
 

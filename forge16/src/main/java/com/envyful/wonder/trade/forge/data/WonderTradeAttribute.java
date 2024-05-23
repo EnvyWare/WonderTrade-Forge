@@ -1,20 +1,17 @@
 package com.envyful.wonder.trade.forge.data;
 
-import com.envyful.api.forge.player.ForgePlayerManager;
-import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
+import com.envyful.api.database.sql.SqlType;
+import com.envyful.api.database.sql.UtilSql;
+import com.envyful.api.forge.player.attribute.ManagedForgeAttribute;
 import com.envyful.api.player.save.attribute.DataDirectory;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeQueries;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @DataDirectory("config/players/WonderTrade/")
-public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForge> {
+public class WonderTradeAttribute extends ManagedForgeAttribute<WonderTradeForge> {
 
     private static final long SECONDS_PER_MINUTE = 60;
     private static final long MINUTES_PER_HOUR = 60;
@@ -24,8 +21,8 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
     private int selected = -1;
     private int confirmedSlot = -1;
 
-    public WonderTradeAttribute(WonderTradeForge manager, ForgePlayerManager playerManager) {
-        super(manager, playerManager);
+    public WonderTradeAttribute() {
+        super(WonderTradeForge.getInstance());
     }
 
     public boolean canTrade() {
@@ -34,7 +31,7 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
         }
 
         return (System.currentTimeMillis() - this.lastTrade) >
-                TimeUnit.SECONDS.toMillis(this.manager.getConfig().getCooldownSeconds());
+                TimeUnit.SECONDS.toMillis(WonderTradeForge.getConfig().getCooldownSeconds());
     }
 
     public void updateLastTrade() {
@@ -67,20 +64,13 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
             return;
         }
 
-        try (Connection connection = this.manager.getDatabase().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.LOAD_USER)) {
-            preparedStatement.setString(1, this.parent.getUuid().toString());
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                return;
-            }
-
-            this.lastTrade = resultSet.getLong("last_trade");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        UtilSql.query(this.manager.getDatabase())
+                .query(WonderTradeQueries.LOAD_USER)
+                .data(SqlType.text(this.id.toString()))
+                .converter(resultSet -> {
+                    this.lastTrade = resultSet.getLong("last_trade");
+                    return null;
+                }).executeWithConverter();
     }
 
     @Override
@@ -89,15 +79,10 @@ public class WonderTradeAttribute extends AbstractForgeAttribute<WonderTradeForg
             return;
         }
 
-        try (Connection connection = this.manager.getDatabase().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.ADD_AND_UPDATE_USER)) {
-            preparedStatement.setString(1, this.parent.getUuid().toString());
-            preparedStatement.setLong(2, this.lastTrade);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        UtilSql.update(this.manager.getDatabase())
+                .query(WonderTradeQueries.ADD_AND_UPDATE_USER)
+                .data(SqlType.text(this.id.toString()), SqlType.bigInt(this.lastTrade))
+                .execute();
     }
 
     public String getCooldownFormatted() {

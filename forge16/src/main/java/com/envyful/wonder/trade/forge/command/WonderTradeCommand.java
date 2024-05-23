@@ -17,9 +17,8 @@ import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
 @Command(
-        value = "wondertrade",
-        description = "Root wonder trade command",
-        aliases = {
+        value = {
+                "wondertrade",
                 "wt"
         }
 )
@@ -28,8 +27,8 @@ public class WonderTradeCommand {
 
     @CommandProcessor
     public void onCommand(@Sender ServerPlayerEntity sender, String[] args) {
-        ForgeEnvyPlayer player = WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender);
-        WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+        var player = WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender);
+        var attribute = player.getAttributeNow(WonderTradeAttribute.class);
 
         if (attribute == null) {
             return;
@@ -63,7 +62,7 @@ public class WonderTradeCommand {
             return;
         }
 
-        int slot = UtilParse.parseInteger(args[0]).orElse(-1);
+        int slot = UtilParse.parseInt(args[0]).orElse(-1);
 
         if (slot < 1 || slot > 6) {
             player.message(UtilChatColour.colour(WonderTradeForge.getLocale().getCommandError()));

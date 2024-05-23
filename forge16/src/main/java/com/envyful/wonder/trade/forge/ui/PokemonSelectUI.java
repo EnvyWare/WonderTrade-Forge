@@ -1,6 +1,5 @@
 package com.envyful.wonder.trade.forge.ui;
 
-import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
 import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
@@ -16,7 +15,6 @@ import com.envyful.wonder.trade.forge.config.WonderTradeGraphics;
 import com.envyful.wonder.trade.forge.data.WonderTradeAttribute;
 import com.envyful.wonder.trade.forge.ui.placeholder.FPAPIPlaceholder;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.api.storage.PlayerPartyStorage;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -25,15 +23,15 @@ import net.minecraft.item.ItemStack;
 public class PokemonSelectUI {
 
     public static void openUI(ForgeEnvyPlayer player) {
-        WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+        var attribute = player.getAttributeNow(WonderTradeAttribute.class);
 
         if (attribute == null) {
             return;
         }
 
-        WonderTradeGraphics.SelectPokemonUI config = WonderTradeForge.getGraphics().getSelectPokemonUI();
+        var config = WonderTradeForge.getGraphics().getSelectPokemonUI();
 
-        Pane pane = GuiFactory.paneBuilder()
+        var pane = GuiFactory.paneBuilder()
                 .height(config.getGuiSettings().getHeight())
                 .width(9)
                 .topLeftX(0)
@@ -42,11 +40,11 @@ public class PokemonSelectUI {
 
         UtilConfigInterface.fillBackground(pane, config.getGuiSettings(), new FPAPIPlaceholder(player.getParent()));
 
-        PlayerPartyStorage party = StorageProxy.getParty(player.getParent());
-        Pokemon[] all = party.getAll();
+        var party = StorageProxy.getParty(player.getParent());
+        var all = party.getAll();
 
         for (int i = 0; i < all.length; i++) {
-            Pokemon pokemon = all[i];
+            var pokemon = all[i];
             int yPos = 1 + (i / 2);
             int xPos = 1 + (i % 2);
 
@@ -78,7 +76,7 @@ public class PokemonSelectUI {
         UtilConfigItem.builder()
                 .asyncClick(true)
                 .clickHandler((envyPlayer, clickType) -> {
-                    WonderTradeAttribute att = player.getAttribute(WonderTradeForge.class);
+                    var att = player.getAttributeNow(WonderTradeAttribute.class);
 
                     if (att.getSelected() == -1) {
                         return;
@@ -91,13 +89,7 @@ public class PokemonSelectUI {
                 })
                 .extendedConfigItem(player, pane, config.getClickToConfirmButton(), new FPAPIPlaceholder(player.getParent()));
 
-        GuiFactory.guiBuilder()
-                .addPane(pane)
-                .title(UtilChatColour.colour(config.getGuiSettings().getTitle()))
-                .height(config.getGuiSettings().getHeight())
-                .setPlayerManager(WonderTradeForge.getInstance().getPlayerManager())
-                .build()
-                .open(player);
+        GuiFactory.singlePaneGui(config.getGuiSettings(), pane).open(player);
     }
 
     private static void setPokemonDisplayItem(Pane pane, int xPos, int yPos, ItemStack sprite, ForgeEnvyPlayer player, int finalI, WonderTradeGraphics.SelectPokemonUI config) {
@@ -106,7 +98,7 @@ public class PokemonSelectUI {
         pane.set(xPos, yPos,
                 GuiFactory.displayableBuilder(sprite)
                         .clickHandler((envyPlayer, clickType) -> {
-                            WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+                            var attribute = player.getAttributeNow(WonderTradeAttribute.class);
 
                             int selectedSpritePosX = config.getSelectedSpritePos() % 9;
                             int selectedSpritePosY = config.getSelectedSpritePos() / 9;

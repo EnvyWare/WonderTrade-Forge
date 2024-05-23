@@ -3,7 +3,9 @@ package com.envyful.wonder.trade.forge.data;
 import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.math.UtilRandom;
+import com.envyful.api.platform.PlatformProxy;
 import com.envyful.api.player.EnvyPlayer;
+import com.envyful.api.text.Placeholder;
 import com.envyful.papi.api.util.UtilPlaceholder;
 import com.envyful.wonder.trade.forge.WonderTradeForge;
 import com.envyful.wonder.trade.forge.config.WonderTradeConfig;
@@ -18,12 +20,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -59,20 +57,20 @@ public class WonderTradeManager {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            WonderTradeForge.getLogger().error("Failed to create WonderTrade pool file", e);
         }
     }
 
     public void generatePool() {
         this.tradePool.clear();
 
-        for (int i = 0; i < this.mod.getConfig().getNumberInPool(); i++) {
-            this.tradePool.add(this.mod.getConfig().getDefaultGeneratorSettings().build());
+        for (int i = 0; i < WonderTradeForge.getConfig().getNumberInPool(); i++) {
+            this.tradePool.add(WonderTradeForge.getConfig().getDefaultGeneratorSettings().build());
         }
     }
 
     public void saveFile() {
-        if (!this.mod.getConfig().isPersistentPool()) {
+        if (!WonderTradeForge.getConfig().isPersistentPool()) {
             return;
         }
 
@@ -84,8 +82,8 @@ public class WonderTradeManager {
             return;
         }
 
-        CompoundNBT nbt = new CompoundNBT();
-        ListNBT tradePool = new ListNBT();
+        var nbt = new CompoundNBT();
+        var tradePool = new ListNBT();
 
         for (Pokemon pokemon : this.tradePool) {
             tradePool.add(pokemon.writeToNBT(new CompoundNBT()));
@@ -93,17 +91,17 @@ public class WonderTradeManager {
 
         nbt.put("trade_pool", tradePool);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+        try (var writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(nbt.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            WonderTradeForge.getLogger().error("Failed to save WonderTrade pool file", e);
         }
     }
 
     private void loadPool(File file) {
-        try (FileReader fileReader = new FileReader(file);
-        BufferedReader reader = new BufferedReader(fileReader)) {
-            StringBuilder builder = new StringBuilder();
+        try (var fileReader = new FileReader(file);
+             var reader = new BufferedReader(fileReader)) {
+            var builder = new StringBuilder();
             String line = null;
 
             while ((line = reader.readLine()) != null) {
@@ -113,19 +111,19 @@ public class WonderTradeManager {
             CompoundNBT nbt = JsonToNBT.parseTag(builder.toString());
             ListNBT list = nbt.getList("trade_pool", Constants.NBT.TAG_COMPOUND);
             for (INBT inbt : list) {
-                Pokemon pokemon = PokemonFactory.create((CompoundNBT)inbt);
+                Pokemon pokemon = PokemonFactory.create((CompoundNBT) inbt);
                 this.tradePool.add(pokemon);
             }
         } catch (CommandSyntaxException | IOException e) {
-            e.printStackTrace();
+            WonderTradeForge.getLogger().error("Failed to load WonderTrade pool file", e);
         }
     }
 
     public void replaceRandomPokemon(EnvyPlayer<ServerPlayerEntity> player, Pokemon newPoke) {
-        WonderTradeAttribute attribute = player.getAttribute(WonderTradeForge.class);
+        var attribute = player.getAttributeNow(WonderTradeAttribute.class);
 
         if (this.tradePool.isEmpty()) {
-            System.out.println("ERROR: Trade Pool is empty");
+            WonderTradeForge.getLogger().error("WonderTrade Pool is empty");
             return;
         }
 
@@ -143,16 +141,14 @@ public class WonderTradeManager {
         player.getParent().closeContainer();
 
         if (this.shouldBroadcast(newPoke)) {
-            for (String broadcast : this.mod.getLocale().getPokemonBroadcast()) {
-                ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
-                        this.getFormattedLine(player, newPoke, broadcast), ChatType.CHAT, Util.NIL_UUID);
-            }
+            PlatformProxy.broadcastMessage(WonderTradeForge.getLocale().getPokemonBroadcast(), Placeholder.simple(s -> this.handlePlaceholders(player, newPoke, s)));
         }
 
         attribute.updateLastTrade();
         StorageProxy.getParty(player.getParent()).set(newPoke.getStorageAndPosition().getB(), pokemon);
         this.tradePool.remove(pokemon);
         this.tradePool.add(newPoke);
+
         player.message(UtilChatColour.colour(
                 UtilPlaceholder.replaceIdentifiers(player.getParent(), WonderTradeForge.getLocale().getTradeSuccessful()
                         .replace("%species%", pokemon.getSpecies().getLocalizedName())
@@ -181,17 +177,13 @@ public class WonderTradeManager {
         return newPoke.isShiny() && broadcastSettings.isBroadcastShinies();
     }
 
-    private ITextComponent getFormattedLine(EnvyPlayer<ServerPlayerEntity> player, Pokemon newPoke, String line) {
-        return UtilChatColour.colour(this.handlePlaceholders(player, newPoke, line));
-    }
-
     public String handlePlaceholders(EnvyPlayer<ServerPlayerEntity> player, Pokemon newPoke, String line) {
         return UtilPlaceholder.replaceIdentifiers(player.getParent(), line
-                .replace("%is_shiny%", newPoke.isShiny() ? this.mod.getLocale().getShinyReplacement() : "")
-                .replace("%is_ultra_beast%", newPoke.isUltraBeast() ? this.mod.getLocale().getUltraBeastReplacement() : "")
-                .replace("%is_legend%", newPoke.isLegendary() ? this.mod.getLocale().getLegendReplacement() : "")
+                .replace("%is_shiny%", newPoke.isShiny() ? WonderTradeForge.getLocale().getShinyReplacement() : "")
+                .replace("%is_ultra_beast%", newPoke.isUltraBeast() ? WonderTradeForge.getLocale().getUltraBeastReplacement() : "")
+                .replace("%is_legend%", newPoke.isLegendary() ? WonderTradeForge.getLocale().getLegendReplacement() : "")
                 .replace("%species%", newPoke.getSpecies().getName())
-                .replace("%pokemon%", newPoke.getDisplayName()));
+                .replace("%pokemon%", newPoke.getFormattedDisplayName().getString()));
     }
 
     public List<Pokemon> getTradePool() {
@@ -200,6 +192,6 @@ public class WonderTradeManager {
 
     public void removePokemon(Pokemon pokemon) {
         this.tradePool.remove(pokemon);
-        this.tradePool.add(this.mod.getConfig().getDefaultGeneratorSettings().build());
+        this.tradePool.add(WonderTradeForge.getConfig().getDefaultGeneratorSettings().build());
     }
 }

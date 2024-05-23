@@ -1,13 +1,17 @@
 package com.envyful.wonder.trade.forge;
 
 import com.envyful.api.concurrency.UtilConcurrency;
+import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
+import com.envyful.api.database.sql.UtilSql;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
+import com.envyful.api.forge.platform.ForgePlatformHandler;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
+import com.envyful.api.platform.PlatformProxy;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
 import com.envyful.wonder.trade.forge.command.WonderTradeCommand;
@@ -25,14 +29,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 @Mod("wondertrade")
 public class WonderTradeForge {
+
+    private static final Logger LOGGER = LogManager.getLogger("WonderTradeForge");
 
     private static WonderTradeForge instance;
 
@@ -49,34 +54,35 @@ public class WonderTradeForge {
     public WonderTradeForge() {
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);
+
+        PlatformProxy.setHandler(ForgePlatformHandler.getInstance());
+        PlatformProxy.setPlayerManager(this.playerManager);
+
+        GuiFactory.setPlatformFactory(new ForgeGuiFactory());
+        GuiFactory.setPlayerManager(this.playerManager);
+
+        UtilLogger.setLogger(LOGGER);
     }
 
     @SubscribeEvent
     public void onServerStarting(FMLServerAboutToStartEvent event) {
-        GuiFactory.setPlatformFactory(new ForgeGuiFactory());
-
         this.loadConfig();
 
         if (this.config.getSaveMode() == SaveMode.JSON) {
             this.playerManager.setSaveManager(new JsonSaveManager<>(this.playerManager));
         }
 
-        this.playerManager.registerAttribute(this, WonderTradeAttribute.class);
+        this.playerManager.registerAttribute(WonderTradeAttribute.class, WonderTradeAttribute::new);
         MinecraftForge.EVENT_BUS.register(new WonderTradeListener());
 
         this.placeholderAPI = this.hasPlaceholderSupport();
 
         if (this.config.getSaveMode() == SaveMode.MYSQL) {
-            UtilConcurrency.runAsync(() -> {
-                this.database = new SimpleHikariDatabase(this.config.getDatabaseDetails());
+            this.database = new SimpleHikariDatabase(this.config.getDatabaseDetails());
 
-                try (Connection connection = this.database.getConnection();
-                     PreparedStatement preparedStatement = connection.prepareStatement(WonderTradeQueries.CREATE_TABLE)) {
-                    preparedStatement.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
+            UtilSql.update(this.getDatabase())
+                            .query(WonderTradeQueries.CREATE_TABLE)
+                                    .executeAsync();
         }
     }
 
@@ -86,7 +92,7 @@ public class WonderTradeForge {
             this.locale = YamlConfigFactory.getInstance(WonderTradeLocale.class);
             this.graphics = YamlConfigFactory.getInstance(WonderTradeGraphics.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to load config", e);
         }
     }
 
@@ -101,7 +107,7 @@ public class WonderTradeForge {
 
     @SubscribeEvent
     public void onServerStarting(RegisterCommandsEvent event) {
-        this.commandFactory.registerCommand(event.getDispatcher(), new WonderTradeCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), this.commandFactory.parseCommand(new WonderTradeCommand()));
     }
 
     @SubscribeEvent
@@ -146,5 +152,9 @@ public class WonderTradeForge {
 
     public static boolean isPlaceholderAPIEnabled() {
         return instance.placeholderAPI;
+    }
+
+    public static Logger getLogger() {
+        return LOGGER;
     }
 }
