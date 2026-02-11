@@ -25,7 +25,7 @@ import net.minecraft.server.level.ServerPlayer;
 @SubCommands({ReloadCommand.class, ResetCooldownCommand.class, ReGeneratePoolCommand.class, AdminCommand.class, ListCommand.class, AddCommand.class})
 public class WonderTradeCommand {
 
-    @CommandProcessor
+    @CommandProcessor(executeAsync = false)
     public void onCommand(@Sender ServerPlayer sender, String[] args) {
         ForgeEnvyPlayer player = WonderTradeForge.getInstance().getPlayerManager().getPlayer(sender);
         WonderTradeAttribute attribute = player.getAttributeNow(WonderTradeAttribute.class);
